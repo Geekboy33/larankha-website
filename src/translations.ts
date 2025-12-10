@@ -99,7 +99,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha Oil & Gas Trading – From Dubai to the World",
       subtitle:
         "Delivering excellence in oil and gas. We power industries with innovative, sustainable and efficient energy solutions from the heart of Dubai.",
-      quote: '"Selling energy, fuelling the future." – Riad Belatreche, Founder & CEO',
+      quote: '"Selling energy, fuelling the future." – Riad Belatreche Zahaf, Founder & CEO',
       ctaPrimary: "Talk to our team",
       ctaSecondary: "Download company profile",
     },
@@ -223,7 +223,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha Oil & Gas Trading – Desde Dubái para el mundo",
       subtitle:
         "Llevamos excelencia en petróleo y gas. Impulsamos industrias con soluciones energéticas innovadoras, sostenibles y eficientes desde el corazón de Dubái.",
-      quote: '"Vendiendo energía, impulsando el futuro". – Riad Belatreche, Fundador & CEO',
+      quote: '"Vendiendo energía, impulsando el futuro". – Riad Belatreche Zahaf, Fundador & CEO',
       ctaPrimary: "Hablar con nuestro equipo",
       ctaSecondary: "Descargar perfil corporativo",
     },
@@ -471,7 +471,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha 石油与天然气贸易 – 立足迪拜，服务全球",
       subtitle:
         "从迪拜核心地带，为全球工业提供创新、可持续且高效的能源解决方案。",
-      quote: '"销售能源，点燃未来。"– 创始人兼首席执行官 Riad Belatreche',
+      quote: '"销售能源，点燃未来。"– 创始人兼首席执行官 Riad Belatreche Zahaf',
       ctaPrimary: "联系商务团队",
       ctaSecondary: "下载公司简介",
     },
@@ -716,7 +716,7 @@ export const copy: Record<Lang, SectionCopy> = {
       subtitle:
         "Nous fournissons aux industries des solutions énergétiques innovantes, durables et efficaces depuis le cœur de Dubaï.",
       quote:
-        '"Vendre l\'énergie, alimenter l\'avenir." – Riad Belatreche, Fondateur & CEO',
+        '"Vendre l\'énergie, alimenter l\'avenir." – Riad Belatreche Zahaf, Fondateur & CEO',
       ctaPrimary: "Parler à notre équipe",
       ctaSecondary: "Télécharger le profil de l'entreprise",
     },
@@ -841,7 +841,7 @@ export const copy: Record<Lang, SectionCopy> = {
       subtitle:
         "Fornecemos soluções de energia inovadoras, sustentáveis e eficientes para indústrias globais a partir do coração de Dubai.",
       quote:
-        '"Vendendo energia, abastecendo o futuro." – Riad Belatreche, Fundador & CEO',
+        '"Vendendo energia, abastecendo o futuro." – Riad Belatreche Zahaf, Fundador & CEO',
       ctaPrimary: "Falar com a equipe",
       ctaSecondary: "Baixar perfil corporativo",
     },
