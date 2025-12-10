@@ -19,6 +19,7 @@ const images = {
   barco: "/images/barco.png",
   camion: "/images/camion.png",
   gasolina: "/images/gasolina.png",
+  jet: "/images/jet.png",
 };
 
 // Iconos personalizados Oil & Gas
@@ -660,6 +661,76 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
                 <div className="text-xs text-slate-500">{stat.label}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AVIATION FUEL / JET FUEL */}
+      <section className="py-20 bg-gradient-to-b from-slate-900/30 to-slate-950 section-fade-up">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Image */}
+            <div className="relative group order-2 lg:order-1">
+              <img
+                src={images.jet}
+                alt="Jet Fuel - Aviation Refueling"
+                className="rounded-3xl shadow-2xl shadow-amber-500/10 transition-transform duration-700 group-hover:scale-[1.02]"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="absolute -bottom-4 -right-4 bg-slate-900/95 backdrop-blur border border-amber-500/30 rounded-2xl p-4 shadow-xl">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-xl bg-amber-500/10">
+                    <OgIcon name="energy" size="md" />
+                  </div>
+                  <div>
+                    <div className="text-lg font-bold text-amber-400">Jet A-1</div>
+                    <div className="text-xs text-slate-400">Premium Aviation Fuel</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="order-1 lg:order-2">
+              <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-3">Aviation Fuel</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                Powering Global Aviation
+              </h2>
+              <p className="text-slate-400 mb-8 leading-relaxed">
+                We supply premium Jet A-1 fuel to airports, FBOs, and aviation operators worldwide. 
+                Our aviation fuel meets the highest international standards, ensuring safe and efficient flight operations.
+              </p>
+
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                {[
+                  { icon: "shield" as const, label: "ASTM Certified", desc: "International standards" },
+                  { icon: "globe" as const, label: "Global Supply", desc: "Multi-region coverage" },
+                  { icon: "timer" as const, label: "24/7 Delivery", desc: "Airport logistics" },
+                  { icon: "check" as const, label: "Quality Control", desc: "Lab-tested batches" },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-amber-500/30 transition">
+                    <div className="p-1.5 rounded-lg bg-amber-500/10 mt-0.5">
+                      <OgIcon name={item.icon} size="sm" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white">{item.label}</div>
+                      <div className="text-xs text-slate-500">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage("products")}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-semibold hover:from-amber-400 hover:to-orange-400 transition shadow-lg shadow-amber-500/20"
+              >
+                Learn More
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>
