@@ -16,6 +16,9 @@ const images = {
   facilityDay: "/images/u3933955513_ultra_realistic_daytime_scene_of_a_modern_oil__ga_64e83200-6954-4e36-8ff7-71697826cfef_0.png",
   refineryVision: "/images/u3933955513_ultra_realistic_industrial_collage_showing_energy_cc02e604-d637-4ba0-94f4-62490d7413aa_2.png",
   lngTanks: "/images/u3933955513_ultra_realistic_spherical_LNG_storage_tanks_sunse_0dda7b8e-37a9-4461-aeb3-86fa49d375c8_3.png",
+  barco: "/images/barco.png",
+  camion: "/images/camion.png",
+  gasolina: "/images/gasolina.png",
 };
 
 // Iconos personalizados Oil & Gas
@@ -38,8 +41,19 @@ const OgIcon: React.FC<{ name:
   | "rocket"
   | "chart"
   | "money"
-}> = ({ name }) => {
-  const common = "w-5 h-5 text-amber-400";
+  | "ship"
+  | "truck"
+  | "anchor"
+  | "route"
+  | "timer"
+  | "lock"
+; size?: "sm" | "md" | "lg" }> = ({ name, size = "md" }) => {
+  const sizes = {
+    sm: "w-4 h-4",
+    md: "w-5 h-5",
+    lg: "w-7 h-7"
+  };
+  const common = `${sizes[size]} text-amber-400`;
   switch (name) {
     case "barrel":
       return (
@@ -171,6 +185,60 @@ const OgIcon: React.FC<{ name:
           <rect x="3" y="6" width="18" height="12" rx="2" />
           <circle cx="12" cy="12" r="2.5" />
           <path d="M7 9v6m10-6v6" />
+        </svg>
+      );
+    case "ship":
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 20 4 9h16l2 11" />
+          <path d="M4 9V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3" />
+          <path d="M12 4v5" />
+          <path d="M8 9V7m8 2V7" />
+          <path d="M2 20c2 0 3-1 5-1s3 1 5 1 3-1 5-1 3 1 5 1" />
+        </svg>
+      );
+    case "truck":
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 3h15v13H1z" />
+          <path d="M16 8h4l3 3v5h-7V8Z" />
+          <circle cx="5.5" cy="18.5" r="2.5" />
+          <circle cx="18.5" cy="18.5" r="2.5" />
+          <path d="M8 16H3m13 0h-1" />
+        </svg>
+      );
+    case "anchor":
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="5" r="3" />
+          <path d="M12 8v13" />
+          <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+          <path d="M12 8 9 11h6l-3-3Z" />
+        </svg>
+      );
+    case "route":
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="6" cy="19" r="3" />
+          <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H18" />
+          <circle cx="18" cy="5" r="3" />
+        </svg>
+      );
+    case "timer":
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="13" r="8" />
+          <path d="M12 9v4l2 2" />
+          <path d="M9 2h6" />
+          <path d="M12 2v2" />
+        </svg>
+      );
+    case "lock":
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="5" y="11" width="14" height="10" rx="2" />
+          <circle cx="12" cy="16" r="1.5" />
+          <path d="M8 11V7a4 4 0 0 1 8 0v4" />
         </svg>
       );
     default:
@@ -501,6 +569,101 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
         </div>
       </section>
 
+      {/* LOGISTICS & DISTRIBUTION - Barco y Camión */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-slate-950 via-slate-900/50 to-slate-950 section-fade-up">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="text-center mb-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-3">Logistics & Distribution</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Global Delivery Network</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Seamless transportation by sea and land, ensuring your energy supplies reach their destination safely and on time.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Maritime Transport */}
+            <div className="group relative overflow-hidden rounded-3xl card-elevated">
+              <img
+                src={images.barco}
+                alt="Maritime Transport - Oil Tanker"
+                className="w-full h-72 md:h-80 object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-xl bg-amber-500/20 border border-amber-500/30">
+                    <OgIcon name="ship" size="lg" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">Maritime Transport</h3>
+                </div>
+                <p className="text-sm text-slate-300 mb-3">
+                  Global shipping routes with modern tanker fleet for crude, refined products and LNG.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {["Crude Oil", "LNG", "Refined Products"].map((tag) => (
+                    <span key={tag} className="px-2 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-[11px] text-amber-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Land Transport */}
+            <div className="group relative overflow-hidden rounded-3xl card-elevated">
+              <img
+                src={images.camion}
+                alt="Land Transport - Fuel Truck"
+                className="w-full h-72 md:h-80 object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-xl bg-amber-500/20 border border-amber-500/30">
+                    <OgIcon name="truck" size="lg" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white">Land Transport</h3>
+                </div>
+                <p className="text-sm text-slate-300 mb-3">
+                  Reliable road logistics with specialized fleet for last-mile fuel delivery.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {["Diesel", "Gasoline", "Jet Fuel"].map((tag) => (
+                    <span key={tag} className="px-2 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-[11px] text-amber-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
+            {[
+              { icon: "anchor" as const, value: "50+", label: "Ports served" },
+              { icon: "route" as const, value: "1000+", label: "Routes active" },
+              { icon: "timer" as const, value: "98%", label: "On-time delivery" },
+              { icon: "lock" as const, value: "Zero", label: "Incidents target" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center p-4 rounded-2xl border border-slate-800 bg-slate-900/40 hover:border-amber-500/30 transition">
+                <div className="flex justify-center mb-2">
+                  <div className="p-2 rounded-xl bg-amber-500/10">
+                    <OgIcon name={stat.icon} size="md" />
+                  </div>
+                </div>
+                <div className="text-xl font-bold text-amber-400">{stat.value}</div>
+                <div className="text-xs text-slate-500">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* TRUST & CERTS */}
       <section className="py-14 bg-slate-950/70 border-y border-slate-800">
         <div className="mx-auto max-w-7xl px-4 space-y-6">
@@ -710,13 +873,20 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
 
             <div className="relative">
               <img
-                src={images.pipelineCloseup}
-                alt="Pipeline"
+                src={images.gasolina}
+                alt="Larankha Gas Station"
                 className="rounded-3xl shadow-2xl shadow-amber-500/10"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute -bottom-6 -left-6 bg-slate-900 border border-amber-500/30 rounded-2xl p-4 shadow-xl">
-                <div className="text-2xl font-bold text-amber-400">15+</div>
-                <div className="text-xs text-slate-400">Product Types</div>
+                <div className="flex items-center gap-2">
+                  <OgIcon name="pump" size="md" />
+                  <div>
+                    <div className="text-xl font-bold text-amber-400">15+</div>
+                    <div className="text-xs text-slate-400">Product Types</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
