@@ -1205,18 +1205,22 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {[
-              { name: "ISO 9001", desc: "Quality Management", icon: "🏆" },
-              { name: "ISO 14001", desc: "Environmental", icon: "🌿" },
-              { name: "API Certified", desc: "Petroleum Standards", icon: "🛢️" },
-              { name: "ASTM", desc: "Testing Standards", icon: "🔬" },
-              { name: "HSE", desc: "Health & Safety", icon: "🦺" },
-              { name: "ESG Ready", desc: "Sustainability", icon: "♻️" },
+              { name: "ISO 9001", desc: "Quality Management", icon: "check" as const },
+              { name: "ISO 14001", desc: "Environmental", icon: "sustain" as const },
+              { name: "API Certified", desc: "Petroleum Standards", icon: "barrel" as const },
+              { name: "ASTM", desc: "Testing Standards", icon: "clipboard" as const },
+              { name: "HSE", desc: "Health & Safety", icon: "shield" as const },
+              { name: "ESG Ready", desc: "Sustainability", icon: "globe" as const },
             ].map((cert) => (
               <div
                 key={cert.name}
-                className="group bg-slate-900/50 border border-slate-800 rounded-2xl p-4 text-center hover:border-amber-500/50 hover:bg-slate-900/70 transition-all cursor-pointer"
+                className="group bg-slate-900/50 border border-slate-800 rounded-2xl p-5 text-center hover:border-amber-500/50 hover:bg-slate-900/70 transition-all cursor-pointer"
               >
-                <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{cert.icon}</div>
+                <div className="flex justify-center mb-3">
+                  <div className="p-3 rounded-xl bg-amber-500/10 group-hover:bg-amber-500/20 group-hover:scale-110 transition-all">
+                    <OgIcon name={cert.icon} size="lg" />
+                  </div>
+                </div>
                 <div className="text-sm font-semibold text-amber-400">{cert.name}</div>
                 <div className="text-xs text-slate-500">{cert.desc}</div>
               </div>
