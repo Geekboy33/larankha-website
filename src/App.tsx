@@ -190,14 +190,16 @@ const InteractiveMapSection: React.FC = () => {
   const [activeHub, setActiveHub] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<{id: number; from: string; to: string; progress: number}[]>([]);
   
-  // Hub positions adjusted to match the holographic map image
+  // Hub positions precisely calibrated to exact geographic locations on the holographic world map
+  // Coordinates match real-world positions: Houston (Gulf Coast USA), Rotterdam (Netherlands), 
+  // Mediterranean (South Europe), Dubai (UAE), Lagos (Nigeria), Singapore (SE Asia)
   const hubs = [
-    { id: "dubai", name: "Dubai HQ", x: 58, y: 42, desc: "Headquarters · Trading · Storage", capacity: "500K bbl", isHQ: true },
-    { id: "rotterdam", name: "Rotterdam", x: 46, y: 28, desc: "Marine · Bunkering · ARA Hub", capacity: "350K bbl", isHQ: false },
-    { id: "singapore", name: "Singapore", x: 76, y: 55, desc: "Asia Hub · Multi-grade", capacity: "400K bbl", isHQ: false },
-    { id: "houston", name: "Houston", x: 20, y: 38, desc: "Americas · Petrochemicals", capacity: "280K bbl", isHQ: false },
-    { id: "mediterranean", name: "Mediterranean", x: 49, y: 36, desc: "Strategic Terminals", capacity: "200K bbl", isHQ: false },
-    { id: "lagos", name: "Lagos", x: 46, y: 52, desc: "West Africa Hub", capacity: "150K bbl", isHQ: false },
+    { id: "dubai", name: "Dubai HQ", x: 60, y: 42, desc: "UAE · Headquarters · Trading Hub", capacity: "500K bbl", isHQ: true },
+    { id: "rotterdam", name: "Rotterdam", x: 48.5, y: 27, desc: "Netherlands · ARA Bunkering Hub", capacity: "350K bbl", isHQ: false },
+    { id: "singapore", name: "Singapore", x: 77, y: 54, desc: "Asia Pacific · Multi-grade Terminal", capacity: "400K bbl", isHQ: false },
+    { id: "houston", name: "Houston", x: 23, y: 38, desc: "Texas, USA · Americas Hub", capacity: "280K bbl", isHQ: false },
+    { id: "mediterranean", name: "Mediterranean", x: 50, y: 35, desc: "Spain/Italy · Strategic Terminals", capacity: "200K bbl", isHQ: false },
+    { id: "lagos", name: "Lagos", x: 48, y: 52, desc: "Nigeria · West Africa Hub", capacity: "150K bbl", isHQ: false },
   ];
 
   // Simulate fuel transactions
@@ -260,14 +262,14 @@ const InteractiveMapSection: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-amber-500/5 via-transparent to-cyan-500/5 pointer-events-none" />
           
           {/* Main map area */}
-          <div className="relative bg-slate-950/90 border border-amber-500/20 rounded-3xl p-4 md:p-8">
+          <div className="relative bg-slate-950/90 border border-amber-500/20 rounded-3xl p-2 sm:p-4 md:p-6 lg:p-8">
             {/* Scanlines overlay */}
-            <div className="absolute inset-0 pointer-events-none opacity-10" style={{
+            <div className="absolute inset-0 pointer-events-none opacity-10 rounded-3xl" style={{
               backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(251, 191, 36, 0.1) 2px, rgba(251, 191, 36, 0.1) 4px)',
             }} />
             
-            {/* Holographic World Map Image */}
-            <div className="relative h-[450px] md:h-[550px]">
+            {/* Holographic World Map Image - Responsive with aspect ratio */}
+            <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
               {/* Base holographic map image */}
               <img 
                 src="/images/holographic-map.png" 
@@ -309,30 +311,33 @@ const InteractiveMapSection: React.FC = () => {
                 </defs>
                 
                 {/* Connection lines between hubs */}
-                {hubs.filter(h => h.id !== 'dubai').map((hub) => (
-                  <g key={`line-${hub.id}`}>
-                    {/* Base line */}
-                    <line
-                      x1={58}
-                      y1={42}
-                      x2={hub.x}
-                      y2={hub.y}
-                      stroke="rgba(251, 191, 36, 0.3)"
-                      strokeWidth="0.3"
-                      strokeDasharray="1,1"
-                    />
-                    {/* Animated flow line */}
-                    <line
-                      x1={58}
-                      y1={42}
-                      x2={hub.x}
-                      y2={hub.y}
-                      stroke="url(#lineFlow)"
-                      strokeWidth="0.4"
-                      className="animate-pulse"
-                    />
-                  </g>
-                ))}
+                {hubs.filter(h => h.id !== 'dubai').map((hub) => {
+                  const dubaiHub = hubs.find(h => h.id === 'dubai')!;
+                  return (
+                    <g key={`line-${hub.id}`}>
+                      {/* Base line */}
+                      <line
+                        x1={dubaiHub.x}
+                        y1={dubaiHub.y}
+                        x2={hub.x}
+                        y2={hub.y}
+                        stroke="rgba(251, 191, 36, 0.25)"
+                        strokeWidth="0.15"
+                        strokeDasharray="0.8,0.8"
+                      />
+                      {/* Animated flow line */}
+                      <line
+                        x1={dubaiHub.x}
+                        y1={dubaiHub.y}
+                        x2={hub.x}
+                        y2={hub.y}
+                        stroke="url(#lineFlow)"
+                        strokeWidth="0.2"
+                        className="animate-pulse"
+                      />
+                    </g>
+                  );
+                })}
                 
                 {/* Animated transaction particles */}
                 {transactions.map((tx) => {
@@ -370,78 +375,60 @@ const InteractiveMapSection: React.FC = () => {
                   );
                 })}
                 
-                {/* Hub markers */}
+                {/* Hub connection endpoints (visual only, interaction is via HTML) */}
                 {hubs.map((hub) => (
                   <g key={hub.id}>
-                    {/* Outer pulse ring */}
+                    {/* Subtle glow at hub position for connection lines */}
                     <circle
                       cx={hub.x}
                       cy={hub.y}
-                      r={hub.isHQ ? 3 : 2}
-                      fill="none"
-                      stroke={hub.isHQ ? "#fbbf24" : "#f59e0b"}
-                      strokeWidth="0.2"
-                      opacity="0.4"
-                      className="animate-ping"
-                    />
-                    {/* Middle ring */}
-                    <circle
-                      cx={hub.x}
-                      cy={hub.y}
-                      r={hub.isHQ ? 2 : 1.3}
-                      fill="none"
-                      stroke={hub.isHQ ? "#fbbf24" : "#f59e0b"}
-                      strokeWidth="0.3"
-                      opacity="0.6"
-                    />
-                    {/* Inner circle */}
-                    <circle
-                      cx={hub.x}
-                      cy={hub.y}
-                      r={hub.isHQ ? 1.2 : 0.8}
+                      r={hub.isHQ ? 1.5 : 1}
                       fill={hub.isHQ ? "#fbbf24" : "#f59e0b"}
+                      opacity="0.3"
                       filter="url(#glow)"
-                    />
-                    {/* Center dot */}
-                    <circle
-                      cx={hub.x}
-                      cy={hub.y}
-                      r="0.4"
-                      fill="#fef3c7"
                     />
                   </g>
                 ))}
               </svg>
               
-              {/* Hub labels with tooltips */}
+              {/* Hub labels with tooltips - Responsive */}
               {hubs.map((hub) => (
                 <div
                   key={`label-${hub.id}`}
-                  className="absolute transform -translate-x-1/2 cursor-pointer group"
+                  className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group z-20"
                   style={{ 
                     left: `${hub.x}%`, 
-                    top: `${hub.y + 6}%`,
-                    zIndex: 20 
+                    top: `${hub.y}%`,
                   }}
                   onMouseEnter={() => setActiveHub(hub.id)}
                   onMouseLeave={() => setActiveHub(null)}
                 >
-                  <div className={`text-xs font-medium ${hub.isHQ ? 'text-amber-400' : 'text-amber-500/80'} whitespace-nowrap`}>
-                    {hub.name}
+                  {/* Clickable area with pulse effect */}
+                  <div className={`relative flex flex-col items-center`}>
+                    {/* Pulse ring */}
+                    <div className={`absolute w-4 h-4 md:w-6 md:h-6 rounded-full ${hub.isHQ ? 'bg-amber-400' : 'bg-amber-500'} animate-ping opacity-30`} />
+                    {/* Main dot */}
+                    <div className={`relative w-2 h-2 md:w-3 md:h-3 rounded-full ${hub.isHQ ? 'bg-amber-400 ring-2 ring-amber-400/50' : 'bg-amber-500'} shadow-lg ${hub.isHQ ? 'shadow-amber-400/50' : 'shadow-amber-500/30'}`} />
+                    {/* Label */}
+                    <div className={`absolute top-full mt-1 text-[8px] sm:text-[10px] md:text-xs font-medium ${hub.isHQ ? 'text-amber-400' : 'text-amber-500/90'} whitespace-nowrap text-center`}>
+                      {hub.name}
+                    </div>
                   </div>
                   
-                  {/* Tooltip */}
-                  <div className={`absolute top-full left-1/2 transform -translate-x-1/2 mt-2 transition-all duration-200 ${activeHub === hub.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
-                    <div className="bg-slate-900/95 border border-amber-500/30 rounded-xl p-4 shadow-2xl shadow-amber-500/10 min-w-[200px] backdrop-blur-sm">
+                  {/* Tooltip - Responsive positioning */}
+                  <div className={`absolute left-1/2 transform -translate-x-1/2 transition-all duration-200 z-30 ${
+                    hub.y > 50 ? 'bottom-full mb-8' : 'top-full mt-8'
+                  } ${activeHub === hub.id ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-95'}`}>
+                    <div className="bg-slate-900/98 border border-amber-500/40 rounded-xl p-3 md:p-4 shadow-2xl shadow-amber-500/20 min-w-[160px] md:min-w-[200px] backdrop-blur-md">
                       <div className="flex items-center gap-2 mb-2">
                         <div className={`w-2 h-2 rounded-full ${hub.isHQ ? 'bg-amber-400' : 'bg-amber-500'}`} />
-                        <span className="text-amber-400 font-bold text-sm flex items-center gap-1">
+                        <span className="text-amber-400 font-bold text-xs md:text-sm flex items-center gap-1">
                           {hub.isHQ ? <><OgIcon name="target" size="sm" /> Headquarters</> : <><OgIcon name="globe" size="sm" /> Regional Hub</>}
                         </span>
                       </div>
-                      <div className="text-white font-semibold mb-1">{hub.name}</div>
-                      <div className="text-slate-400 text-xs mb-2">{hub.desc}</div>
-                      <div className="flex items-center justify-between text-xs border-t border-slate-800 pt-2 mt-2">
+                      <div className="text-white font-semibold text-sm md:text-base mb-1">{hub.name}</div>
+                      <div className="text-slate-400 text-[10px] md:text-xs mb-2">{hub.desc}</div>
+                      <div className="flex items-center justify-between text-[10px] md:text-xs border-t border-slate-800 pt-2 mt-2">
                         <span className="text-slate-500">Capacity</span>
                         <span className="text-amber-400 font-semibold">{hub.capacity}</span>
                       </div>
@@ -450,27 +437,27 @@ const InteractiveMapSection: React.FC = () => {
                 </div>
               ))}
               
-              {/* Live transaction indicator */}
-              <div className="absolute top-4 left-4 flex items-center gap-2 bg-slate-900/80 border border-amber-500/20 rounded-lg px-3 py-2 backdrop-blur-sm">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs text-slate-400">Live Transactions</span>
-                <span className="text-xs text-amber-400 font-semibold">{transactions.length} active</span>
+              {/* Live transaction indicator - Responsive */}
+              <div className="absolute top-2 left-2 sm:top-4 sm:left-4 flex items-center gap-1 sm:gap-2 bg-slate-900/90 border border-amber-500/20 rounded-lg px-2 py-1 sm:px-3 sm:py-2 backdrop-blur-sm z-10">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] sm:text-xs text-slate-400 hidden sm:inline">Live Transactions</span>
+                <span className="text-[10px] sm:text-xs text-amber-400 font-semibold">{transactions.length} <span className="hidden sm:inline">active</span></span>
               </div>
               
-              {/* Legend */}
-              <div className="absolute bottom-4 right-4 bg-slate-900/80 border border-amber-500/20 rounded-xl p-4 backdrop-blur-sm">
-                <div className="text-xs text-amber-400 font-semibold mb-3">Legend</div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs">
-                    <div className="w-3 h-3 rounded-full bg-amber-400 shadow-lg shadow-amber-500/50" />
+              {/* Legend - Responsive, hidden on very small screens */}
+              <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 bg-slate-900/90 border border-amber-500/20 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 backdrop-blur-sm z-10 hidden sm:block">
+                <div className="text-[10px] sm:text-xs text-amber-400 font-semibold mb-2 sm:mb-3">Legend</div>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-amber-400 shadow-lg shadow-amber-500/50" />
                     <span className="text-slate-300">Headquarters</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs">
-                    <div className="w-2 h-2 rounded-full bg-amber-500" />
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-500" />
                     <span className="text-slate-400">Regional Hub</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs">
-                    <div className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400 animate-ping" />
                     <span className="text-slate-400">Active Transaction</span>
                   </div>
                 </div>
