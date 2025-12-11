@@ -52,6 +52,263 @@ const useCountUp = (end: number, duration: number = 2000, startOnView: boolean =
   return { count, ref };
 };
 
+// ==================== BACK TO TOP BUTTON ====================
+const BackToTopButton: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      setIsVisible(window.scrollY > 500);
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    <button
+      onClick={scrollToTop}
+      className="fixed bottom-24 right-6 z-40 p-3 bg-slate-800/90 hover:bg-amber-500 border border-slate-700 hover:border-amber-400 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group"
+      aria-label="Back to top"
+    >
+      <svg className="w-5 h-5 text-amber-400 group-hover:text-slate-950 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+  );
+};
+
+// ==================== LOADING SCREEN ====================
+const LoadingScreen: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          setTimeout(onComplete, 300);
+          return 100;
+        }
+        return prev + 2;
+      });
+    }, 30);
+    return () => clearInterval(timer);
+  }, [onComplete]);
+
+  return (
+    <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col items-center justify-center">
+      {/* Animated Logo */}
+      <div className="relative mb-8 animate-pulse">
+        <img src="/images/logo dorado 1.png" alt="Larankha" className="h-24 w-auto" />
+      </div>
+      <div className="text-amber-400 text-lg font-semibold tracking-[0.3em] uppercase mb-6">
+        Oil & Gas Trading
+      </div>
+      {/* Progress bar */}
+      <div className="w-64 h-1 bg-slate-800 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-100 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+      <div className="mt-4 text-slate-500 text-sm">{progress}%</div>
+    </div>
+  );
+};
+
+// ==================== NEWS/PRESS SECTION ====================
+const NewsSection: React.FC = () => {
+  const newsItems = [
+    {
+      date: "Dec 2024",
+      title: "Larankha Expands Operations to West Africa",
+      excerpt: "Strategic partnership with Ghanaian ports opens new distribution channels for refined petroleum products across the Gulf of Guinea region.",
+      category: "Expansion",
+    },
+    {
+      date: "Nov 2024",
+      title: "ESG Certification Milestone Achieved",
+      excerpt: "Larankha receives ISO 14001 environmental management certification, reinforcing commitment to sustainable trading practices.",
+      category: "Sustainability",
+    },
+    {
+      date: "Oct 2024",
+      title: "New Aviation Fuel Contract with Major Carrier",
+      excerpt: "Multi-year agreement to supply Jet A-1 to international airports across the MENA region, expanding aviation fuel portfolio.",
+      category: "Partnerships",
+    },
+  ];
+
+  return (
+    <section className="py-20 bg-slate-900/50 section-fade-up">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="text-center mb-12">
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-2">News & Updates</p>
+          <h2 className="text-3xl font-bold text-white mb-4">Latest from Larankha</h2>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            Stay informed about our latest developments, partnerships, and industry insights.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {newsItems.map((item, idx) => (
+            <article
+              key={idx}
+              className="bg-slate-950/50 border border-slate-800 rounded-2xl p-6 hover:border-amber-500/30 transition group cursor-pointer"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-xs text-amber-400 bg-amber-500/10 px-2 py-1 rounded">{item.category}</span>
+                <span className="text-xs text-slate-500">{item.date}</span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-3 group-hover:text-amber-400 transition">
+                {item.title}
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                {item.excerpt}
+              </p>
+              <div className="flex items-center text-amber-400 text-sm font-medium group-hover:gap-2 transition-all">
+                Read more
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ==================== INTERACTIVE MAP SECTION ====================
+const InteractiveMapSection: React.FC = () => {
+  const [activeHub, setActiveHub] = useState<string | null>(null);
+  
+  const hubs = [
+    { id: "dubai", name: "Dubai HQ", x: 62, y: 42, desc: "Headquarters · Trading · Storage", capacity: "500K bbl" },
+    { id: "rotterdam", name: "Rotterdam", x: 48, y: 28, desc: "Marine · Bunkering · ARA Hub", capacity: "350K bbl" },
+    { id: "singapore", name: "Singapore", x: 78, y: 55, desc: "Asia Hub · Multi-grade", capacity: "400K bbl" },
+    { id: "houston", name: "Houston", x: 22, y: 38, desc: "Americas · Petrochemicals", capacity: "280K bbl" },
+    { id: "mediterranean", name: "Mediterranean", x: 50, y: 38, desc: "Strategic Terminals", capacity: "200K bbl" },
+    { id: "lagos", name: "Lagos", x: 47, y: 52, desc: "West Africa Hub", capacity: "150K bbl" },
+  ];
+
+  return (
+    <section className="py-20 bg-slate-950 section-fade-up overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="text-center mb-12">
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-2">Global Network</p>
+          <h2 className="text-3xl font-bold text-white mb-4">Our Worldwide Operations</h2>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            Strategic presence across key energy trading hubs, ensuring seamless supply chain operations.
+          </p>
+        </div>
+        
+        {/* Map Container */}
+        <div className="relative bg-slate-900/50 rounded-3xl border border-slate-800 p-8 overflow-hidden">
+          {/* World map grid background */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="w-full h-full" style={{
+              backgroundImage: `
+                linear-gradient(rgba(251, 191, 36, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(251, 191, 36, 0.1) 1px, transparent 1px)
+              `,
+              backgroundSize: '40px 40px'
+            }} />
+          </div>
+          
+          {/* Simplified world map outline */}
+          <div className="relative h-[400px] md:h-[500px]">
+            {/* Connection lines */}
+            <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(251, 191, 36, 0.2)" />
+                  <stop offset="50%" stopColor="rgba(251, 191, 36, 0.5)" />
+                  <stop offset="100%" stopColor="rgba(251, 191, 36, 0.2)" />
+                </linearGradient>
+              </defs>
+              {/* Lines from Dubai to other hubs */}
+              {hubs.filter(h => h.id !== 'dubai').map((hub) => (
+                <line
+                  key={hub.id}
+                  x1="62%" y1="42%"
+                  x2={`${hub.x}%`} y2={`${hub.y}%`}
+                  stroke="url(#lineGradient)"
+                  strokeWidth="1"
+                  strokeDasharray="5,5"
+                  className="animate-pulse"
+                />
+              ))}
+            </svg>
+            
+            {/* Hub points */}
+            {hubs.map((hub) => (
+              <div
+                key={hub.id}
+                className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
+                style={{ left: `${hub.x}%`, top: `${hub.y}%`, zIndex: 10 }}
+                onMouseEnter={() => setActiveHub(hub.id)}
+                onMouseLeave={() => setActiveHub(null)}
+              >
+                {/* Pulse ring */}
+                <div className={`absolute inset-0 rounded-full ${hub.id === 'dubai' ? 'bg-amber-500' : 'bg-amber-400'} animate-ping opacity-30`} 
+                     style={{ width: hub.id === 'dubai' ? '24px' : '16px', height: hub.id === 'dubai' ? '24px' : '16px', margin: hub.id === 'dubai' ? '-4px' : '-2px' }} />
+                
+                {/* Main dot */}
+                <div className={`relative rounded-full ${hub.id === 'dubai' ? 'w-4 h-4 bg-amber-500 shadow-lg shadow-amber-500/50' : 'w-3 h-3 bg-amber-400'} border-2 border-slate-950 group-hover:scale-150 transition-transform`} />
+                
+                {/* Tooltip */}
+                <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 transition-all duration-200 ${activeHub === hub.id ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+                  <div className="bg-slate-900 border border-amber-500/30 rounded-xl p-4 shadow-xl min-w-[180px]">
+                    <div className="text-amber-400 font-bold text-sm mb-1">{hub.name}</div>
+                    <div className="text-slate-400 text-xs mb-2">{hub.desc}</div>
+                    <div className="text-white text-xs">Capacity: <span className="text-amber-400">{hub.capacity}</span></div>
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full border-8 border-transparent border-t-slate-900" />
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Legend */}
+            <div className="absolute bottom-4 right-4 bg-slate-900/90 border border-slate-800 rounded-xl p-4">
+              <div className="text-xs text-slate-500 mb-2">Legend</div>
+              <div className="flex items-center gap-2 text-xs">
+                <div className="w-3 h-3 rounded-full bg-amber-500" />
+                <span className="text-slate-400">Headquarters</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs mt-1">
+                <div className="w-2 h-2 rounded-full bg-amber-400" />
+                <span className="text-slate-400">Regional Hub</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Stats below map */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+          {[
+            { value: "6", label: "Strategic Hubs" },
+            { value: "50+", label: "Ports Connected" },
+            { value: "24/7", label: "Operations" },
+            { value: "1.88M", label: "Total Capacity (bbl)" },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center p-4 rounded-xl border border-slate-800 bg-slate-900/40">
+              <div className="text-2xl font-bold text-amber-400">{stat.value}</div>
+              <div className="text-xs text-slate-500">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // ==================== WHATSAPP FLOATING BUTTON ====================
 const WhatsAppButton: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -461,6 +718,7 @@ const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [cursorPos, setCursorPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [cursorVisible, setCursorVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Cursor de flama
   React.useEffect(() => {
@@ -509,6 +767,11 @@ const App: React.FC = () => {
         return <HomePage t={t} setCurrentPage={setCurrentPage} />;
     }
   };
+
+  // Show loading screen on initial load
+  if (isLoading) {
+    return <LoadingScreen onComplete={() => setIsLoading(false)} />;
+  }
 
   return (
     <div
@@ -678,6 +941,7 @@ const App: React.FC = () => {
 
       {/* Floating Components */}
       <WhatsAppButton />
+      <BackToTopButton />
       <CookieConsent />
     </div>
   );
@@ -1347,6 +1611,12 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
 
       {/* FAQ SECTION */}
       <FAQSection />
+
+      {/* INTERACTIVE MAP SECTION */}
+      <InteractiveMapSection />
+
+      {/* NEWS SECTION */}
+      <NewsSection />
 
       {/* CTA Final */}
       <section className="relative py-24 overflow-hidden">
