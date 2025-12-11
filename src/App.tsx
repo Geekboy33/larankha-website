@@ -188,15 +188,59 @@ const NewsSection: React.FC = () => {
 // ==================== INTERACTIVE MAP SECTION ====================
 const InteractiveMapSection: React.FC = () => {
   const [activeHub, setActiveHub] = useState<string | null>(null);
+  const [transactions, setTransactions] = useState<{id: number; from: string; to: string; progress: number}[]>([]);
   
   const hubs = [
-    { id: "dubai", name: "Dubai HQ", x: 62, y: 42, desc: "Headquarters · Trading · Storage", capacity: "500K bbl" },
-    { id: "rotterdam", name: "Rotterdam", x: 48, y: 28, desc: "Marine · Bunkering · ARA Hub", capacity: "350K bbl" },
-    { id: "singapore", name: "Singapore", x: 78, y: 55, desc: "Asia Hub · Multi-grade", capacity: "400K bbl" },
-    { id: "houston", name: "Houston", x: 22, y: 38, desc: "Americas · Petrochemicals", capacity: "280K bbl" },
-    { id: "mediterranean", name: "Mediterranean", x: 50, y: 38, desc: "Strategic Terminals", capacity: "200K bbl" },
-    { id: "lagos", name: "Lagos", x: 47, y: 52, desc: "West Africa Hub", capacity: "150K bbl" },
+    { id: "dubai", name: "Dubai HQ", x: 62, y: 42, desc: "Headquarters · Trading · Storage", capacity: "500K bbl", isHQ: true },
+    { id: "rotterdam", name: "Rotterdam", x: 48, y: 28, desc: "Marine · Bunkering · ARA Hub", capacity: "350K bbl", isHQ: false },
+    { id: "singapore", name: "Singapore", x: 78, y: 55, desc: "Asia Hub · Multi-grade", capacity: "400K bbl", isHQ: false },
+    { id: "houston", name: "Houston", x: 22, y: 38, desc: "Americas · Petrochemicals", capacity: "280K bbl", isHQ: false },
+    { id: "mediterranean", name: "Mediterranean", x: 50, y: 38, desc: "Strategic Terminals", capacity: "200K bbl", isHQ: false },
+    { id: "lagos", name: "Lagos", x: 47, y: 55, desc: "West Africa Hub", capacity: "150K bbl", isHQ: false },
   ];
+
+  // Simulate fuel transactions
+  useEffect(() => {
+    let txId = 0;
+    const createTransaction = () => {
+      const otherHubs = hubs.filter(h => h.id !== 'dubai');
+      const randomHub = otherHubs[Math.floor(Math.random() * otherHubs.length)];
+      const isOutgoing = Math.random() > 0.3;
+      
+      const newTx = {
+        id: txId++,
+        from: isOutgoing ? 'dubai' : randomHub.id,
+        to: isOutgoing ? randomHub.id : 'dubai',
+        progress: 0
+      };
+      
+      setTransactions(prev => [...prev.slice(-8), newTx]);
+    };
+
+    const interval = setInterval(createTransaction, 1500);
+    createTransaction();
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  // Animate transactions
+  useEffect(() => {
+    const animationInterval = setInterval(() => {
+      setTransactions(prev => 
+        prev.map(tx => ({
+          ...tx,
+          progress: Math.min(tx.progress + 2, 100)
+        })).filter(tx => tx.progress < 100)
+      );
+    }, 30);
+    
+    return () => clearInterval(animationInterval);
+  }, []);
+
+  const getHubCoords = (hubId: string) => {
+    const hub = hubs.find(h => h.id === hubId);
+    return hub ? { x: hub.x, y: hub.y } : { x: 50, y: 50 };
+  };
 
   return (
     <section className="py-20 bg-slate-950 section-fade-up overflow-hidden">
@@ -205,86 +249,234 @@ const InteractiveMapSection: React.FC = () => {
           <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-2">Global Network</p>
           <h2 className="text-3xl font-bold text-white mb-4">Our Worldwide Operations</h2>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            Strategic presence across key energy trading hubs, ensuring seamless supply chain operations.
+            Real-time fuel trading operations across strategic global hubs.
           </p>
         </div>
         
-        {/* Map Container */}
-        <div className="relative bg-slate-900/50 rounded-3xl border border-slate-800 p-8 overflow-hidden">
-          {/* World map grid background */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="w-full h-full" style={{
-              backgroundImage: `
-                linear-gradient(rgba(251, 191, 36, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(251, 191, 36, 0.1) 1px, transparent 1px)
-              `,
-              backgroundSize: '40px 40px'
-            }} />
-          </div>
+        {/* Holographic Map Container */}
+        <div className="relative rounded-3xl overflow-hidden" style={{ perspective: '1000px' }}>
+          {/* Holographic glow effect */}
+          <div className="absolute inset-0 bg-gradient-to-b from-amber-500/5 via-transparent to-cyan-500/5 pointer-events-none" />
           
-          {/* Simplified world map outline */}
-          <div className="relative h-[400px] md:h-[500px]">
-            {/* Connection lines */}
-            <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
-              <defs>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgba(251, 191, 36, 0.2)" />
-                  <stop offset="50%" stopColor="rgba(251, 191, 36, 0.5)" />
-                  <stop offset="100%" stopColor="rgba(251, 191, 36, 0.2)" />
-                </linearGradient>
-              </defs>
-              {/* Lines from Dubai to other hubs */}
-              {hubs.filter(h => h.id !== 'dubai').map((hub) => (
-                <line
-                  key={hub.id}
-                  x1="62%" y1="42%"
-                  x2={`${hub.x}%`} y2={`${hub.y}%`}
-                  stroke="url(#lineGradient)"
-                  strokeWidth="1"
-                  strokeDasharray="5,5"
-                  className="animate-pulse"
-                />
-              ))}
-            </svg>
+          {/* Main map area */}
+          <div className="relative bg-slate-950/90 border border-amber-500/20 rounded-3xl p-4 md:p-8">
+            {/* Scanlines overlay */}
+            <div className="absolute inset-0 pointer-events-none opacity-10" style={{
+              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(251, 191, 36, 0.1) 2px, rgba(251, 191, 36, 0.1) 4px)',
+            }} />
             
-            {/* Hub points */}
-            {hubs.map((hub) => (
-              <div
-                key={hub.id}
-                className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
-                style={{ left: `${hub.x}%`, top: `${hub.y}%`, zIndex: 10 }}
-                onMouseEnter={() => setActiveHub(hub.id)}
-                onMouseLeave={() => setActiveHub(null)}
-              >
-                {/* Pulse ring */}
-                <div className={`absolute inset-0 rounded-full ${hub.id === 'dubai' ? 'bg-amber-500' : 'bg-amber-400'} animate-ping opacity-30`} 
-                     style={{ width: hub.id === 'dubai' ? '24px' : '16px', height: hub.id === 'dubai' ? '24px' : '16px', margin: hub.id === 'dubai' ? '-4px' : '-2px' }} />
+            {/* Holographic grid */}
+            <div className="absolute inset-0 pointer-events-none" style={{
+              backgroundImage: `
+                linear-gradient(rgba(251, 191, 36, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(251, 191, 36, 0.03) 1px, transparent 1px)
+              `,
+              backgroundSize: '50px 50px'
+            }} />
+
+            {/* SVG World Map */}
+            <div className="relative h-[450px] md:h-[550px]">
+              <svg viewBox="0 0 1000 500" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  {/* Holographic gradient */}
+                  <linearGradient id="holoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(251, 191, 36, 0.6)" />
+                    <stop offset="50%" stopColor="rgba(249, 115, 22, 0.4)" />
+                    <stop offset="100%" stopColor="rgba(251, 191, 36, 0.6)" />
+                  </linearGradient>
+                  
+                  {/* Glow filter */}
+                  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  
+                  {/* Transaction particle gradient */}
+                  <radialGradient id="particleGlow">
+                    <stop offset="0%" stopColor="rgba(251, 191, 36, 1)" />
+                    <stop offset="50%" stopColor="rgba(251, 191, 36, 0.5)" />
+                    <stop offset="100%" stopColor="rgba(251, 191, 36, 0)" />
+                  </radialGradient>
+                </defs>
                 
-                {/* Main dot */}
-                <div className={`relative rounded-full ${hub.id === 'dubai' ? 'w-4 h-4 bg-amber-500 shadow-lg shadow-amber-500/50' : 'w-3 h-3 bg-amber-400'} border-2 border-slate-950 group-hover:scale-150 transition-transform`} />
+                {/* Simplified World Map Outline - Holographic Style */}
+                <g fill="none" stroke="url(#holoGradient)" strokeWidth="0.8" filter="url(#glow)" opacity="0.7">
+                  {/* North America */}
+                  <path d="M 50 120 Q 80 100 120 110 L 180 100 Q 220 95 250 120 L 270 150 Q 260 180 240 200 L 200 220 Q 160 230 140 210 L 100 200 Q 60 180 50 150 Z" />
+                  {/* South America */}
+                  <path d="M 200 250 Q 220 260 230 290 L 250 350 Q 240 400 220 420 L 190 410 Q 170 380 180 340 L 175 290 Q 180 260 200 250 Z" />
+                  {/* Europe */}
+                  <path d="M 440 100 Q 480 90 520 100 L 540 120 Q 530 140 500 150 L 460 145 Q 440 130 440 100 Z" />
+                  {/* Africa */}
+                  <path d="M 440 180 Q 480 170 520 190 L 540 250 Q 530 320 500 360 L 460 350 Q 430 300 440 240 Z" />
+                  {/* Asia */}
+                  <path d="M 560 80 Q 650 70 750 100 L 820 140 Q 850 180 840 220 L 780 250 Q 700 240 640 200 L 580 160 Q 550 120 560 80 Z" />
+                  {/* Middle East */}
+                  <path d="M 540 170 Q 580 160 620 180 L 640 210 Q 620 240 580 230 L 550 210 Q 530 190 540 170 Z" />
+                  {/* Australia */}
+                  <path d="M 760 320 Q 820 310 860 340 L 870 380 Q 850 410 800 400 L 760 380 Q 740 350 760 320 Z" />
+                  {/* Additional landmass details */}
+                  <path d="M 700 280 L 740 290 Q 750 310 730 320 L 700 310 Z" />
+                </g>
                 
-                {/* Tooltip */}
-                <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 transition-all duration-200 ${activeHub === hub.id ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
-                  <div className="bg-slate-900 border border-amber-500/30 rounded-xl p-4 shadow-xl min-w-[180px]">
-                    <div className="text-amber-400 font-bold text-sm mb-1">{hub.name}</div>
-                    <div className="text-slate-400 text-xs mb-2">{hub.desc}</div>
-                    <div className="text-white text-xs">Capacity: <span className="text-amber-400">{hub.capacity}</span></div>
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full border-8 border-transparent border-t-slate-900" />
+                {/* Latitude/Longitude lines */}
+                <g stroke="rgba(251, 191, 36, 0.1)" strokeWidth="0.5" fill="none">
+                  {[100, 200, 300, 400].map(y => (
+                    <line key={`lat-${y}`} x1="0" y1={y} x2="1000" y2={y} strokeDasharray="10,10" />
+                  ))}
+                  {[200, 400, 600, 800].map(x => (
+                    <line key={`lng-${x}`} x1={x} y1="0" x2={x} y2="500" strokeDasharray="10,10" />
+                  ))}
+                </g>
+                
+                {/* Connection lines between hubs */}
+                {hubs.filter(h => h.id !== 'dubai').map((hub) => (
+                  <line
+                    key={`line-${hub.id}`}
+                    x1={620}
+                    y1={210}
+                    x2={hub.x * 10}
+                    y2={hub.y * 5}
+                    stroke="rgba(251, 191, 36, 0.2)"
+                    strokeWidth="1"
+                    strokeDasharray="8,4"
+                  />
+                ))}
+                
+                {/* Animated transaction particles */}
+                {transactions.map((tx) => {
+                  const from = getHubCoords(tx.from);
+                  const to = getHubCoords(tx.to);
+                  const x = from.x * 10 + (to.x * 10 - from.x * 10) * (tx.progress / 100);
+                  const y = from.y * 5 + (to.y * 5 - from.y * 5) * (tx.progress / 100);
+                  
+                  return (
+                    <g key={tx.id}>
+                      {/* Particle trail */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="12"
+                        fill="url(#particleGlow)"
+                        opacity={0.3}
+                      />
+                      {/* Main particle */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="4"
+                        fill="#fbbf24"
+                        filter="url(#glow)"
+                      />
+                      {/* Inner glow */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="2"
+                        fill="#fef3c7"
+                      />
+                    </g>
+                  );
+                })}
+                
+                {/* Hub markers */}
+                {hubs.map((hub) => (
+                  <g key={hub.id} transform={`translate(${hub.x * 10}, ${hub.y * 5})`}>
+                    {/* Outer pulse ring */}
+                    <circle
+                      r={hub.isHQ ? "20" : "14"}
+                      fill="none"
+                      stroke={hub.isHQ ? "#fbbf24" : "#f59e0b"}
+                      strokeWidth="1"
+                      opacity="0.3"
+                      className="animate-ping"
+                      style={{ transformOrigin: 'center', animationDuration: '2s' }}
+                    />
+                    {/* Middle ring */}
+                    <circle
+                      r={hub.isHQ ? "12" : "8"}
+                      fill="none"
+                      stroke={hub.isHQ ? "#fbbf24" : "#f59e0b"}
+                      strokeWidth="1.5"
+                      opacity="0.5"
+                    />
+                    {/* Inner circle */}
+                    <circle
+                      r={hub.isHQ ? "6" : "4"}
+                      fill={hub.isHQ ? "#fbbf24" : "#f59e0b"}
+                      filter="url(#glow)"
+                    />
+                    {/* Center dot */}
+                    <circle
+                      r="2"
+                      fill="#fef3c7"
+                    />
+                  </g>
+                ))}
+              </svg>
+              
+              {/* Hub labels with tooltips */}
+              {hubs.map((hub) => (
+                <div
+                  key={`label-${hub.id}`}
+                  className="absolute transform -translate-x-1/2 cursor-pointer group"
+                  style={{ 
+                    left: `${hub.x}%`, 
+                    top: `${hub.y + 6}%`,
+                    zIndex: 20 
+                  }}
+                  onMouseEnter={() => setActiveHub(hub.id)}
+                  onMouseLeave={() => setActiveHub(null)}
+                >
+                  <div className={`text-xs font-medium ${hub.isHQ ? 'text-amber-400' : 'text-amber-500/80'} whitespace-nowrap`}>
+                    {hub.name}
+                  </div>
+                  
+                  {/* Tooltip */}
+                  <div className={`absolute top-full left-1/2 transform -translate-x-1/2 mt-2 transition-all duration-200 ${activeHub === hub.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+                    <div className="bg-slate-900/95 border border-amber-500/30 rounded-xl p-4 shadow-2xl shadow-amber-500/10 min-w-[200px] backdrop-blur-sm">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className={`w-2 h-2 rounded-full ${hub.isHQ ? 'bg-amber-400' : 'bg-amber-500'}`} />
+                        <span className="text-amber-400 font-bold text-sm">{hub.isHQ ? '🏢 Headquarters' : '📍 Regional Hub'}</span>
+                      </div>
+                      <div className="text-white font-semibold mb-1">{hub.name}</div>
+                      <div className="text-slate-400 text-xs mb-2">{hub.desc}</div>
+                      <div className="flex items-center justify-between text-xs border-t border-slate-800 pt-2 mt-2">
+                        <span className="text-slate-500">Capacity</span>
+                        <span className="text-amber-400 font-semibold">{hub.capacity}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
+              ))}
+              
+              {/* Live transaction indicator */}
+              <div className="absolute top-4 left-4 flex items-center gap-2 bg-slate-900/80 border border-amber-500/20 rounded-lg px-3 py-2 backdrop-blur-sm">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs text-slate-400">Live Transactions</span>
+                <span className="text-xs text-amber-400 font-semibold">{transactions.length} active</span>
               </div>
-            ))}
-            
-            {/* Legend */}
-            <div className="absolute bottom-4 right-4 bg-slate-900/90 border border-slate-800 rounded-xl p-4">
-              <div className="text-xs text-slate-500 mb-2">Legend</div>
-              <div className="flex items-center gap-2 text-xs">
-                <div className="w-3 h-3 rounded-full bg-amber-500" />
-                <span className="text-slate-400">Headquarters</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs mt-1">
-                <div className="w-2 h-2 rounded-full bg-amber-400" />
-                <span className="text-slate-400">Regional Hub</span>
+              
+              {/* Legend */}
+              <div className="absolute bottom-4 right-4 bg-slate-900/80 border border-amber-500/20 rounded-xl p-4 backdrop-blur-sm">
+                <div className="text-xs text-amber-400 font-semibold mb-3">Legend</div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-xs">
+                    <div className="w-3 h-3 rounded-full bg-amber-400 shadow-lg shadow-amber-500/50" />
+                    <span className="text-slate-300">Headquarters</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <div className="w-2 h-2 rounded-full bg-amber-500" />
+                    <span className="text-slate-400">Regional Hub</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <div className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+                    <span className="text-slate-400">Active Transaction</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -293,13 +485,14 @@ const InteractiveMapSection: React.FC = () => {
         {/* Stats below map */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
           {[
-            { value: "6", label: "Strategic Hubs" },
-            { value: "50+", label: "Ports Connected" },
-            { value: "24/7", label: "Operations" },
-            { value: "1.88M", label: "Total Capacity (bbl)" },
+            { value: "6", label: "Strategic Hubs", icon: "🌍" },
+            { value: "50+", label: "Ports Connected", icon: "🚢" },
+            { value: "24/7", label: "Live Operations", icon: "⚡" },
+            { value: "1.88M", label: "Total Capacity (bbl)", icon: "🛢️" },
           ].map((stat) => (
-            <div key={stat.label} className="text-center p-4 rounded-xl border border-slate-800 bg-slate-900/40">
-              <div className="text-2xl font-bold text-amber-400">{stat.value}</div>
+            <div key={stat.label} className="text-center p-4 rounded-xl border border-amber-500/20 bg-slate-900/40 hover:border-amber-500/40 transition group">
+              <div className="text-2xl mb-2">{stat.icon}</div>
+              <div className="text-2xl font-bold text-amber-400 group-hover:scale-110 transition">{stat.value}</div>
               <div className="text-xs text-slate-500">{stat.label}</div>
             </div>
           ))}

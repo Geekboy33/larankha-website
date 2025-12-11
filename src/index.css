@@ -405,3 +405,103 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
 }
 
+/* ==================== HOLOGRAPHIC MAP EFFECTS ==================== */
+
+/* Holographic scanline animation */
+@keyframes holographic-scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.holo-scan {
+  animation: holographic-scan 4s linear infinite;
+}
+
+/* Holographic flicker */
+@keyframes holo-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  95% { opacity: 0.9; }
+  96% { opacity: 1; }
+}
+
+.holo-flicker {
+  animation: holo-flicker 5s infinite;
+}
+
+/* Transaction particle animation */
+@keyframes particle-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.8));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 1));
+  }
+}
+
+.particle-glow {
+  animation: particle-glow 0.5s infinite;
+}
+
+/* Map rotation subtle effect */
+@keyframes map-rotate {
+  0% {
+    transform: rotateY(-2deg) rotateX(2deg);
+  }
+  50% {
+    transform: rotateY(2deg) rotateX(-2deg);
+  }
+  100% {
+    transform: rotateY(-2deg) rotateX(2deg);
+  }
+}
+
+.map-3d-rotate {
+  animation: map-rotate 20s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+/* Hub beacon pulse */
+@keyframes beacon-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.beacon-pulse {
+  animation: beacon-pulse 2s infinite;
+}
+
+/* Holographic border glow */
+@keyframes holo-border {
+  0%, 100% {
+    box-shadow: 
+      0 0 5px rgba(251, 191, 36, 0.3),
+      inset 0 0 10px rgba(251, 191, 36, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 20px rgba(251, 191, 36, 0.5),
+      inset 0 0 20px rgba(251, 191, 36, 0.2);
+  }
+}
+
+.holo-border {
+  animation: holo-border 3s ease-in-out infinite;
+}
+
