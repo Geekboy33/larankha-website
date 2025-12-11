@@ -435,7 +435,9 @@ const InteractiveMapSection: React.FC = () => {
                     <div className="bg-slate-900/95 border border-amber-500/30 rounded-xl p-4 shadow-2xl shadow-amber-500/10 min-w-[200px] backdrop-blur-sm">
                       <div className="flex items-center gap-2 mb-2">
                         <div className={`w-2 h-2 rounded-full ${hub.isHQ ? 'bg-amber-400' : 'bg-amber-500'}`} />
-                        <span className="text-amber-400 font-bold text-sm">{hub.isHQ ? '🏢 Headquarters' : '📍 Regional Hub'}</span>
+                        <span className="text-amber-400 font-bold text-sm flex items-center gap-1">
+                          {hub.isHQ ? <><OgIcon name="target" size="sm" /> Headquarters</> : <><OgIcon name="globe" size="sm" /> Regional Hub</>}
+                        </span>
                       </div>
                       <div className="text-white font-semibold mb-1">{hub.name}</div>
                       <div className="text-slate-400 text-xs mb-2">{hub.desc}</div>
@@ -480,13 +482,13 @@ const InteractiveMapSection: React.FC = () => {
         {/* Stats below map */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
           {[
-            { value: "6", label: "Strategic Hubs", icon: "🌍" },
-            { value: "50+", label: "Ports Connected", icon: "🚢" },
-            { value: "24/7", label: "Live Operations", icon: "⚡" },
-            { value: "1.88M", label: "Total Capacity (bbl)", icon: "🛢️" },
+            { value: "6", label: "Strategic Hubs", iconType: "globe" },
+            { value: "50+", label: "Ports Connected", iconType: "ship" },
+            { value: "24/7", label: "Live Operations", iconType: "energy" },
+            { value: "1.88M", label: "Total Capacity (bbl)", iconType: "barrel" },
           ].map((stat) => (
             <div key={stat.label} className="text-center p-4 rounded-xl border border-amber-500/20 bg-slate-900/40 hover:border-amber-500/40 transition group">
-              <div className="text-2xl mb-2">{stat.icon}</div>
+              <div className="flex justify-center mb-2"><OgIcon name={stat.iconType as any} size="lg" /></div>
               <div className="text-2xl font-bold text-amber-400 group-hover:scale-110 transition">{stat.value}</div>
               <div className="text-xs text-slate-500">{stat.label}</div>
             </div>
