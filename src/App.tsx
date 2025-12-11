@@ -1,6 +1,190 @@
 // src/App.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Lang, languages, copy } from "./translations";
+
+// ==================== ANIMATED COUNTER HOOK ====================
+const useCountUp = (end: number, duration: number = 2000, startOnView: boolean = true) => {
+  const [count, setCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!startOnView) {
+      setHasStarted(true);
+    }
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          setHasStarted(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasStarted, startOnView]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    let startTime: number;
+    let animationFrame: number;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setCount(Math.floor(progress * end));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [end, duration, hasStarted]);
+
+  return { count, ref };
+};
+
+// ==================== WHATSAPP FLOATING BUTTON ====================
+const WhatsAppButton: React.FC = () => {
+  const [isHovered, setIsHovered] = useState(false);
+  const phoneNumber = "971502661066"; // Replace with actual WhatsApp number
+  const message = "Hello, I'm interested in Larankha Oil & Gas Trading services.";
+  
+  return (
+    <a
+      href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-6 right-6 z-50 group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      aria-label="Contact us on WhatsApp"
+    >
+      <div className="relative">
+        {/* Pulse animation */}
+        <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-25" />
+        
+        {/* Main button */}
+        <div className="relative flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-full shadow-lg shadow-green-500/30 transition-all duration-300 hover:scale-105">
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span className={`font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ${isHovered ? 'max-w-32 opacity-100' : 'max-w-0 opacity-0'}`}>
+            Chat Now
+          </span>
+        </div>
+      </div>
+    </a>
+  );
+};
+
+// ==================== COOKIE CONSENT BANNER ====================
+const CookieConsent: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookieConsent');
+    if (!consent) {
+      setTimeout(() => setIsVisible(true), 2000);
+    }
+  }, []);
+
+  const acceptCookies = () => {
+    localStorage.setItem('cookieConsent', 'true');
+    setIsVisible(false);
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-40 p-4 bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 animate-slide-up">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">🍪</span>
+          <p className="text-sm text-slate-300">
+            We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <button
+            onClick={acceptCookies}
+            className="px-6 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold rounded-lg transition"
+          >
+            Accept
+          </button>
+          <button
+            onClick={() => setIsVisible(false)}
+            className="px-6 py-2 border border-slate-700 hover:border-slate-600 text-slate-300 rounded-lg transition"
+          >
+            Decline
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==================== FAQ ACCORDION ====================
+const FAQItem: React.FC<{ question: string; answer: string; isOpen: boolean; onClick: () => void }> = ({
+  question,
+  answer,
+  isOpen,
+  onClick,
+}) => (
+  <div className="border border-slate-800 rounded-2xl overflow-hidden hover:border-amber-500/30 transition">
+    <button
+      onClick={onClick}
+      className="w-full flex items-center justify-between p-5 text-left bg-slate-900/50 hover:bg-slate-900/70 transition"
+    >
+      <span className="font-semibold text-white pr-4">{question}</span>
+      <svg
+        className={`w-5 h-5 text-amber-400 transition-transform duration-300 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+    <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
+      <div className="p-5 pt-0 text-slate-400 text-sm leading-relaxed">
+        {answer}
+      </div>
+    </div>
+  </div>
+);
+
+// ==================== ANIMATED STAT CARD ====================
+const AnimatedStatCard: React.FC<{ 
+  icon: React.ReactNode; 
+  value: number; 
+  suffix?: string;
+  label: string; 
+}> = ({ icon, value, suffix = "", label }) => {
+  const { count, ref } = useCountUp(value, 2000);
+  
+  return (
+    <div ref={ref} className="text-center p-6 rounded-2xl border border-slate-800 bg-slate-900/40 hover:border-amber-500/30 transition group">
+      <div className="flex justify-center mb-3">
+        <div className="p-3 rounded-xl bg-amber-500/10 group-hover:bg-amber-500/20 transition">
+          {icon}
+        </div>
+      </div>
+      <div className="text-3xl font-bold text-amber-400 mb-1">
+        {count}{suffix}
+      </div>
+      <div className="text-sm text-slate-500">{label}</div>
+    </div>
+  );
+};
 
 // Imágenes organizadas estratégicamente
 const images = {
@@ -340,7 +524,7 @@ const App: React.FC = () => {
           }}
         >
           <div className="flame-cursor-inner" />
-        </div>
+            </div>
       )}
 
       {/* NAVBAR */}
@@ -491,6 +675,10 @@ const App: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Floating Components */}
+      <WhatsAppButton />
+      <CookieConsent />
     </div>
   );
 };
@@ -521,7 +709,7 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
             <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-4 py-2">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-xs font-medium text-amber-300">
-                LARANKHA OIL &amp; GAS · DUBAI
+              LARANKHA OIL &amp; GAS · DUBAI
               </span>
             </div>
 
@@ -564,10 +752,10 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
                 <StatCard icon={<OgIcon name="globe" />} label="Coverage" value="Global" hint="Multi-region" />
                 <StatCard icon={<OgIcon name="energy" />} label="Supply" value="24/7" hint="Non-stop delivery" />
                 <StatCard icon={<OgIcon name="shield" />} label="Standards" value="ESG" hint="Certified" />
-              </div>
-            </div>
-          </div>
-        </div>
+                  </div>
+                  </div>
+                </div>
+                </div>
       </section>
 
       {/* LOGISTICS & DISTRIBUTION - Barco y Camión */}
@@ -579,7 +767,7 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
             <p className="text-slate-400 max-w-2xl mx-auto">
               Seamless transportation by sea and land, ensuring your energy supplies reach their destination safely and on time.
             </p>
-          </div>
+              </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Maritime Transport */}
@@ -626,9 +814,9 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-2 rounded-xl bg-amber-500/20 border border-amber-500/30">
                     <OgIcon name="truck" size="lg" />
-                  </div>
+              </div>
                   <h3 className="text-xl font-bold text-white">Land Transport</h3>
-                </div>
+            </div>
                 <p className="text-sm text-slate-300 mb-3">
                   Reliable road logistics with specialized fleet for last-mile fuel delivery.
                 </p>
@@ -696,7 +884,7 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
               <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-3">Aviation Fuel</p>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                 Powering Global Aviation
-              </h2>
+            </h2>
               <p className="text-slate-400 mb-8 leading-relaxed">
                 We supply premium Jet A-1 fuel to airports, FBOs, and aviation operators worldwide. 
                 Our aviation fuel meets the highest international standards, ensuring safe and efficient flight operations.
@@ -712,7 +900,7 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
                   <div key={item.label} className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-amber-500/30 transition">
                     <div className="p-1.5 rounded-lg bg-amber-500/10 mt-0.5">
                       <OgIcon name={item.icon} size="sm" />
-                    </div>
+          </div>
                     <div>
                       <div className="text-sm font-semibold text-white">{item.label}</div>
                       <div className="text-xs text-slate-500">{item.desc}</div>
@@ -846,8 +1034,8 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
             <h2 className="text-3xl font-bold text-white mb-4">Our Capabilities</h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
               World-class infrastructure powering global energy distribution
-            </p>
-          </div>
+              </p>
+            </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             <ImageCard
@@ -923,11 +1111,11 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
                   >
                     <h3 className="text-sm font-semibold text-amber-400 mb-2">
                       {group.name}
-                    </h3>
+              </h3>
                     <p className="text-xs text-slate-400">
                       {group.items.slice(0, 2).join(" · ")}
-                    </p>
-                  </div>
+              </p>
+            </div>
                 ))}
               </div>
 
@@ -1008,6 +1196,154 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
         </div>
       </section>
 
+      {/* CERTIFICATIONS / BADGES */}
+      <section className="py-16 bg-slate-950/50 border-y border-slate-800 section-fade-up">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="text-center mb-10">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-2">Certifications & Standards</p>
+            <h3 className="text-2xl font-bold text-white">Industry-Leading Compliance</h3>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {[
+              { name: "ISO 9001", desc: "Quality Management", icon: "🏆" },
+              { name: "ISO 14001", desc: "Environmental", icon: "🌿" },
+              { name: "API Certified", desc: "Petroleum Standards", icon: "🛢️" },
+              { name: "ASTM", desc: "Testing Standards", icon: "🔬" },
+              { name: "HSE", desc: "Health & Safety", icon: "🦺" },
+              { name: "ESG Ready", desc: "Sustainability", icon: "♻️" },
+            ].map((cert) => (
+              <div
+                key={cert.name}
+                className="group bg-slate-900/50 border border-slate-800 rounded-2xl p-4 text-center hover:border-amber-500/50 hover:bg-slate-900/70 transition-all cursor-pointer"
+              >
+                <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">{cert.icon}</div>
+                <div className="text-sm font-semibold text-amber-400">{cert.name}</div>
+                <div className="text-xs text-slate-500">{cert.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CLIENTS / PARTNERS LOGOS */}
+      <section className="py-16 section-fade-up">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="text-center mb-10">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-2">Trusted Partners</p>
+            <h3 className="text-2xl font-bold text-white">Working with Industry Leaders</h3>
+          </div>
+          <div className="relative overflow-hidden">
+            <div className="flex animate-scroll-x gap-12 py-4">
+              {[
+                { name: "ADNOC", sector: "National Oil Co." },
+                { name: "Emirates", sector: "Aviation" },
+                { name: "DP World", sector: "Logistics" },
+                { name: "ENOC", sector: "Energy" },
+                { name: "Etihad", sector: "Aviation" },
+                { name: "Masdar", sector: "Renewables" },
+                { name: "DEWA", sector: "Utilities" },
+                { name: "Emarat", sector: "Fuel Retail" },
+              ].map((client, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 bg-slate-900/30 border border-slate-800 rounded-xl px-8 py-4 hover:border-amber-500/30 transition"
+                >
+                  <div className="text-lg font-bold text-slate-300">{client.name}</div>
+                  <div className="text-xs text-slate-500">{client.sector}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="text-center text-xs text-slate-600 mt-6">* Representative of typical client industries</p>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="py-20 bg-gradient-to-b from-slate-900/30 to-slate-950 section-fade-up">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="text-center mb-12">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-2">Client Testimonials</p>
+            <h3 className="text-3xl font-bold text-white">What Our Partners Say</h3>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                quote: "Larankha has been instrumental in ensuring our fuel supply chain runs smoothly. Their 24/7 availability and quality standards are unmatched.",
+                author: "Operations Director",
+                company: "Major Aviation Company",
+                rating: 5
+              },
+              {
+                quote: "The professionalism and reliability of Larankha's team have made them our preferred partner for oil & gas trading in the region.",
+                author: "Procurement Manager",
+                company: "Industrial Conglomerate",
+                rating: 5
+              },
+              {
+                quote: "Exceptional service from initial inquiry to delivery. Their understanding of the MENA market is invaluable to our operations.",
+                author: "Supply Chain Head",
+                company: "Maritime Logistics Firm",
+                rating: 5
+              },
+            ].map((testimonial, i) => (
+              <div
+                key={i}
+                className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 hover:border-amber-500/30 transition relative"
+              >
+                <div className="absolute -top-3 left-6 text-4xl text-amber-500/30">"</div>
+                <div className="flex gap-1 mb-4">
+                  {[...Array(testimonial.rating)].map((_, j) => (
+                    <span key={j} className="text-amber-400">★</span>
+                  ))}
+                </div>
+                <p className="text-slate-300 text-sm leading-relaxed mb-6 italic">
+                  "{testimonial.quote}"
+                </p>
+                <div className="border-t border-slate-800 pt-4">
+                  <div className="font-semibold text-white text-sm">{testimonial.author}</div>
+                  <div className="text-xs text-slate-500">{testimonial.company}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* KEY STATS ANIMATED */}
+      <section className="py-16 bg-slate-950/70 section-fade-up">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <AnimatedStatCard
+              icon={<OgIcon name="barrel" size="lg" />}
+              value={500}
+              suffix="K+"
+              label="Barrels Traded Monthly"
+            />
+            <AnimatedStatCard
+              icon={<OgIcon name="globe" size="lg" />}
+              value={25}
+              suffix="+"
+              label="Countries Served"
+            />
+            <AnimatedStatCard
+              icon={<OgIcon name="ship" size="lg" />}
+              value={150}
+              suffix="+"
+              label="Shipments Per Year"
+            />
+            <AnimatedStatCard
+              icon={<OgIcon name="shield" size="lg" />}
+              value={99}
+              suffix="%"
+              label="On-Time Delivery"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ SECTION */}
+      <FAQSection />
+
       {/* CTA Final */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
@@ -1021,7 +1357,7 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
         <div className="relative mx-auto max-w-4xl px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Ready to Power Your Business?
-          </h2>
+            </h2>
           <p className="text-lg text-slate-300 mb-8">
             Contact us today to discuss your energy requirements
           </p>
@@ -1031,7 +1367,7 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
           >
             Get in Touch
           </button>
-        </div>
+          </div>
       </section>
     </>
   );
@@ -1050,7 +1386,7 @@ const ProductsPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/80 to-slate-950" />
-        </div>
+          </div>
         <div className="relative mx-auto max-w-7xl px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             {t.products.title}
@@ -1064,8 +1400,8 @@ const ProductsPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid md:grid-cols-2 gap-8">
             {t.products.groups.map((group: any, idx: number) => (
-              <div
-                key={group.name}
+            <div
+              key={group.name}
                 className="group bg-slate-900/50 border border-slate-800 rounded-3xl p-8 hover:border-amber-500/50 transition-all hover:shadow-xl hover:shadow-amber-500/5"
               >
                 <div className="flex items-start justify-between mb-6">
@@ -1074,21 +1410,21 @@ const ProductsPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
                       {[<OgIcon key="b" name="barrel" />, <OgIcon key="p" name="pump" />, <OgIcon key="w" name="wrench" />, <OgIcon key="f" name="flame" />][idx]}
                     </div>
                     <h3 className="text-xl font-bold text-amber-400">
-                      {group.name}
-                    </h3>
-                  </div>
+                  {group.name}
+                </h3>
+              </div>
                   <div className="h-1 w-20 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 mt-4" />
                 </div>
                 <ul className="space-y-3">
                   {group.items.map((item: string) => (
                     <li key={item} className="flex items-center gap-3 text-slate-300">
-                      <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                       {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
           </div>
         </div>
       </section>
@@ -1097,7 +1433,7 @@ const ProductsPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
       <section className="py-20 bg-slate-900/50">
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
+          <div>
               <h2 className="text-3xl font-bold text-white mb-6">LNG & Gas Solutions</h2>
               <p className="text-slate-400 mb-6">
                 State-of-the-art liquefied natural gas storage and distribution capabilities
@@ -1116,17 +1452,17 @@ const ProductsPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
                   <span className="h-2 w-2 rounded-full bg-emerald-400" />
                   Advanced cryogenic storage
                 </li>
-              </ul>
-            </div>
+            </ul>
+          </div>
             <div>
               <img
                 src={images.lngTanks}
                 alt="LNG Tanks"
                 className="rounded-3xl shadow-2xl"
               />
+              </div>
+              </div>
             </div>
-          </div>
-        </div>
       </section>
     </>
   );
@@ -1145,7 +1481,7 @@ const AboutPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/70 to-slate-950" />
-        </div>
+          </div>
         <div className="relative mx-auto max-w-7xl px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             About Larankha
@@ -1191,7 +1527,7 @@ const AboutPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
               alt="Facility"
               className="rounded-3xl shadow-2xl"
             />
-            <div>
+          <div>
               <h2 className="text-3xl font-bold text-white mb-6">Our Story</h2>
               <p className="text-slate-400 mb-4">
                 Founded in Dubai, Larankha Oil And Gas Trading Co. L.L.C has established
@@ -1205,7 +1541,7 @@ const AboutPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
                 <div className="text-center">
                   <div className="text-3xl font-bold text-amber-400">2022</div>
                   <div className="text-xs text-slate-500">Founded</div>
-                </div>
+          </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-amber-400">15+</div>
                   <div className="text-xs text-slate-500">Products</div>
@@ -1225,7 +1561,7 @@ const AboutPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="text-3xl font-bold text-white mb-12 text-center">
             {t.future.title}
-          </h2>
+            </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.future.bullets.map((bullet: string, idx: number) => (
               <div
@@ -1333,7 +1669,7 @@ const TanksPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
+          <div>
               <h2 className="text-3xl font-bold text-white mb-6">Spherical LNG Storage</h2>
               <p className="text-slate-400 mb-6">
                 Our spherical tanks represent the pinnacle of LNG storage technology,
@@ -1352,8 +1688,8 @@ const TanksPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
                   <span className="h-2 w-2 rounded-full bg-amber-400" />
                   24/7 pressure monitoring
                 </li>
-              </ul>
-            </div>
+            </ul>
+          </div>
             <img
               src={images.lngTanks}
               alt="LNG Spherical Tanks"
@@ -1382,7 +1718,7 @@ const CareersPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {t.careers.title}
+              {t.careers.title}
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto">
             {t.careers.intro}
@@ -1395,7 +1731,7 @@ const CareersPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="text-3xl font-bold text-white mb-12 text-center">
             Why Join Larankha?
-          </h2>
+            </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.careers.perks.map((perk: string, idx: number) => (
               <div
@@ -1434,9 +1770,9 @@ const CareersPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
                       <div className="font-semibold text-amber-400">{item.role}</div>
                       <div className="text-sm text-slate-400">{item.desc}</div>
                     </div>
-                  </li>
-                ))}
-              </ul>
+                </li>
+              ))}
+            </ul>
             </div>
             <img
               src={images.refineryLogo}
@@ -1482,11 +1818,11 @@ const ContactPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
         </div>
         <div className="relative mx-auto max-w-7xl px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {t.contact.title}
+              {t.contact.title}
           </h1>
           <p className="text-xl text-slate-300">
-            Larankha Oil And Gas Trading Co. L.L.C · DET Trade License 1095390
-          </p>
+              Larankha Oil And Gas Trading Co. L.L.C · DET Trade License 1095390
+            </p>
         </div>
       </section>
 
@@ -1497,7 +1833,7 @@ const ContactPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
             {/* Info */}
             <div>
               <h2 className="text-2xl font-bold text-white mb-6">
-                {t.contact.addressTitle}
+              {t.contact.addressTitle}
               </h2>
               <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 mb-6">
                 {t.contact.address.map((line: string) => (
@@ -1518,74 +1854,74 @@ const ContactPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
 
               <p className="text-sm text-slate-500">
                 Operational hours: 09:00 – 18:00 (GST), Sunday to Friday
-              </p>
-            </div>
+            </p>
+          </div>
 
             {/* Form */}
             <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-8">
               <h3 className="text-xl font-bold text-white mb-2">{t.contact.formTitle}</h3>
               <p className="text-sm text-slate-400 mb-6">{t.contact.formSubtitle}</p>
 
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  alert("Form submission should be wired to your backend / API.");
-                }}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert("Form submission should be wired to your backend / API.");
+              }}
                 className="space-y-4"
-              >
-                <div>
+            >
+              <div>
                   <label className="block text-sm text-slate-300 mb-2">
-                    {t.contact.formName}
-                  </label>
-                  <input
-                    type="text"
+                  {t.contact.formName}
+                </label>
+                <input
+                  type="text"
                     aria-label={t.contact.formName}
                     placeholder={t.contact.formName}
                     className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
-                  />
-                </div>
-                <div>
+                />
+              </div>
+              <div>
                   <label className="block text-sm text-slate-300 mb-2">
-                    {t.contact.formEmail}
-                  </label>
-                  <input
-                    type="email"
+                  {t.contact.formEmail}
+                </label>
+                <input
+                  type="email"
                     aria-label={t.contact.formEmail}
                     placeholder={t.contact.formEmail}
                     className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
-                  />
-                </div>
-                <div>
+                />
+              </div>
+              <div>
                   <label className="block text-sm text-slate-300 mb-2">
-                    {t.contact.formCompany}
-                  </label>
-                  <input
-                    type="text"
+                  {t.contact.formCompany}
+                </label>
+                <input
+                  type="text"
                     aria-label={t.contact.formCompany}
                     placeholder={t.contact.formCompany}
                     className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
-                  />
-                </div>
-                <div>
+                />
+              </div>
+              <div>
                   <label className="block text-sm text-slate-300 mb-2">
-                    {t.contact.formMessage}
-                  </label>
-                  <textarea
-                    rows={4}
+                  {t.contact.formMessage}
+                </label>
+                <textarea
+                  rows={4}
                     aria-label={t.contact.formMessage}
                     placeholder={t.contact.formMessage}
                     className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
-                  />
-                </div>
-                <button
-                  type="submit"
+                />
+              </div>
+              <button
+                type="submit"
                   className="w-full bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-4 rounded-xl text-sm font-bold text-slate-950 shadow-xl hover:shadow-amber-500/30 transition"
-                >
-                  {t.contact.formSubmit}
-                </button>
-              </form>
-            </div>
+              >
+                {t.contact.formSubmit}
+              </button>
+            </form>
           </div>
+        </div>
         </div>
       </section>
     </>
@@ -1602,13 +1938,13 @@ const StatCard: React.FC<{ icon: React.ReactNode; label: string; value: string; 
 }) => (
   <div className="bg-slate-950/50 border border-slate-800 rounded-2xl p-4 hover:border-amber-500/30 flex items-start gap-3 card-elevated">
     <div className="mt-0.5 text-amber-400">{icon}</div>
-    <div>
+          <div>
       <div className="text-xs text-slate-500">{label}</div>
       <div className="text-lg font-bold text-amber-400 leading-tight">{value}</div>
       <div className="text-xs text-slate-500">{hint}</div>
+          </div>
     </div>
-  </div>
-);
+  );
 
 const ImageCard: React.FC<{ image: string; title: string; description: string }> = ({
   image,
@@ -1652,5 +1988,60 @@ const PhilosophyCard: React.FC<{
     </p>
   </div>
 );
+
+// ==================== FAQ SECTION COMPONENT ====================
+const FAQSection: React.FC = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  
+  const faqs = [
+    {
+      question: "What types of petroleum products does Larankha trade?",
+      answer: "We specialize in trading a comprehensive range of petroleum products including Diesel (10ppm & 50ppm), Gasoline (87-95 Octanes), Jet Fuel A-1, LNG, LPG, Base Oils (SN150, SN500), and crude oil. All products meet international quality standards."
+    },
+    {
+      question: "Which regions do you serve?",
+      answer: "Larankha operates globally with strategic hubs in Dubai (HQ), Rotterdam, Houston, Singapore, Mediterranean ports, and emerging African markets. We serve clients across MENA, Europe, Americas, and Asia-Pacific regions."
+    },
+    {
+      question: "What are your minimum order quantities?",
+      answer: "Minimum order quantities vary by product and delivery method. For bulk maritime shipments, we typically work with cargo lots. For land-based deliveries, we offer flexible volumes to meet your operational needs. Contact our trading desk for specific requirements."
+    },
+    {
+      question: "How do you ensure product quality?",
+      answer: "All our products undergo rigorous quality control through certified laboratories. We comply with ASTM, API, and ISO standards. Each shipment comes with a Certificate of Analysis (COA) and Certificate of Origin (COO)."
+    },
+    {
+      question: "What payment terms do you offer?",
+      answer: "We offer flexible payment terms including Letters of Credit (LC), Documentary Collections, and established credit facilities for qualified partners. Our finance team works with clients to structure optimal payment solutions."
+    },
+    {
+      question: "Do you offer 24/7 support?",
+      answer: "Yes, our operations and trading desks operate 24/7 to support global time zones. You can reach us via phone, email, or WhatsApp at any time for urgent inquiries and supply coordination."
+    },
+  ];
+
+  return (
+    <section className="py-20 section-fade-up">
+      <div className="mx-auto max-w-4xl px-4">
+        <div className="text-center mb-12">
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-2">FAQ</p>
+          <h3 className="text-3xl font-bold text-white">Frequently Asked Questions</h3>
+          <p className="text-slate-400 mt-3">Everything you need to know about our services</p>
+    </div>
+        <div className="space-y-4">
+          {faqs.map((faq, i) => (
+            <FAQItem
+              key={i}
+              question={faq.question}
+              answer={faq.answer}
+              isOpen={openIndex === i}
+              onClick={() => setOpenIndex(openIndex === i ? null : i)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default App;
