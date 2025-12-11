@@ -92,12 +92,12 @@ const LoadingScreen: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(onComplete, 300);
+          setTimeout(onComplete, 150);
           return 100;
         }
-        return prev + 2;
+        return prev + 5; // Faster increment
       });
-    }, 30);
+    }, 15); // Faster interval
     return () => clearInterval(timer);
   }, [onComplete]);
 
