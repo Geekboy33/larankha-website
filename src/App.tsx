@@ -1468,7 +1468,493 @@ const ProductsPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
               </div>
             </div>
       </section>
+
+      {/* ==================== MARKET INTELLIGENCE ==================== */}
+      <MarketIntelligenceSection setCurrentPage={() => {}} />
     </>
+  );
+};
+
+// ==================== FUEL SPECIFICATIONS GRID ====================
+const FuelSpecificationsGrid: React.FC = () => (
+  <div className="mb-16">
+    <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+      <OgIcon name="barrel" size="md" />
+      Petroleum Products Specifications
+    </h3>
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Crude Oil */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-6 hover:border-amber-500/40 transition group">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
+            <OgIcon name="barrel" size="md" />
+          </div>
+          <div>
+            <h4 className="text-lg font-bold text-amber-400">Crude Oil</h4>
+            <p className="text-xs text-slate-500">Raw Petroleum</p>
+          </div>
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between text-slate-400"><span>Brent Crude (ICE)</span><span className="text-white">$72-85/bbl</span></div>
+          <div className="flex justify-between text-slate-400"><span>WTI (NYMEX)</span><span className="text-white">$68-82/bbl</span></div>
+          <div className="flex justify-between text-slate-400"><span>Dubai/Oman</span><span className="text-white">$70-83/bbl</span></div>
+          <div className="flex justify-between text-slate-400"><span>API Gravity</span><span className="text-white">20-45°</span></div>
+          <div className="flex justify-between text-slate-400"><span>Sulfur Content</span><span className="text-white">0.1-3.5%</span></div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-slate-800">
+          <div className="text-xs text-slate-500">Global Production</div>
+          <div className="text-lg font-bold text-white">100.9 Million bbl/day</div>
+        </div>
+      </div>
+
+      {/* Gasoline */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-6 hover:border-amber-500/40 transition group">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center">
+            <OgIcon name="pump" size="md" />
+          </div>
+          <div>
+            <h4 className="text-lg font-bold text-amber-400">Gasoline / Petrol</h4>
+            <p className="text-xs text-slate-500">Motor Spirit</p>
+          </div>
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between text-slate-400"><span>Regular 87 RON</span><span className="text-white">$680-750/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>Premium 91 RON</span><span className="text-white">$720-800/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>Super 95 RON</span><span className="text-white">$760-850/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>Density</span><span className="text-white">720-775 kg/m³</span></div>
+          <div className="flex justify-between text-slate-400"><span>Sulfur (Euro 5)</span><span className="text-white">&lt;10 ppm</span></div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-slate-800">
+          <div className="text-xs text-slate-500">Global Consumption</div>
+          <div className="text-lg font-bold text-white">26.4 Million bbl/day</div>
+        </div>
+      </div>
+
+      {/* Diesel */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-6 hover:border-amber-500/40 transition group">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+            <OgIcon name="truck" size="md" />
+          </div>
+          <div>
+            <h4 className="text-lg font-bold text-amber-400">Diesel / Gasoil</h4>
+            <p className="text-xs text-slate-500">ULSD - EN590</p>
+          </div>
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between text-slate-400"><span>EN590 10ppm</span><span className="text-white">$750-850/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>D2 (500ppm)</span><span className="text-white">$700-780/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>Cetane Number</span><span className="text-white">45-55 min</span></div>
+          <div className="flex justify-between text-slate-400"><span>Density @15°C</span><span className="text-white">820-845 kg/m³</span></div>
+          <div className="flex justify-between text-slate-400"><span>Flash Point</span><span className="text-white">&gt;55°C</span></div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-slate-800">
+          <div className="text-xs text-slate-500">Global Consumption</div>
+          <div className="text-lg font-bold text-white">28.2 Million bbl/day</div>
+        </div>
+      </div>
+
+      {/* Jet Fuel */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-6 hover:border-amber-500/40 transition group">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
+            <OgIcon name="target" size="md" />
+          </div>
+          <div>
+            <h4 className="text-lg font-bold text-amber-400">Jet Fuel / Aviation</h4>
+            <p className="text-xs text-slate-500">Jet A-1 / JP-8</p>
+          </div>
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between text-slate-400"><span>Jet A-1 (Civil)</span><span className="text-white">$820-920/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>JP-8 (Military)</span><span className="text-white">$850-950/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>Freeze Point</span><span className="text-white">&lt;-47°C</span></div>
+          <div className="flex justify-between text-slate-400"><span>Density @15°C</span><span className="text-white">775-840 kg/m³</span></div>
+          <div className="flex justify-between text-slate-400"><span>Sulfur Content</span><span className="text-white">&lt;3000 ppm</span></div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-slate-800">
+          <div className="text-xs text-slate-500">Global Consumption</div>
+          <div className="text-lg font-bold text-white">7.9 Million bbl/day</div>
+        </div>
+      </div>
+
+      {/* Fuel Oil / Bunker */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-6 hover:border-amber-500/40 transition group">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center">
+            <OgIcon name="ship" size="md" />
+          </div>
+          <div>
+            <h4 className="text-lg font-bold text-amber-400">Fuel Oil / Bunker</h4>
+            <p className="text-xs text-slate-500">VLSFO - IFO380</p>
+          </div>
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between text-slate-400"><span>VLSFO 0.5%</span><span className="text-white">$550-650/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>IFO 380 3.5%</span><span className="text-white">$420-500/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>MGO 0.1%</span><span className="text-white">$700-800/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>Viscosity</span><span className="text-white">180-380 cSt</span></div>
+          <div className="flex justify-between text-slate-400"><span>Density @15°C</span><span className="text-white">920-991 kg/m³</span></div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-slate-800">
+          <div className="text-xs text-slate-500">Global Bunkering</div>
+          <div className="text-lg font-bold text-white">350 Million MT/year</div>
+        </div>
+      </div>
+
+      {/* LNG/LPG */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-6 hover:border-amber-500/40 transition group">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
+            <OgIcon name="flame" size="md" />
+          </div>
+          <div>
+            <h4 className="text-lg font-bold text-amber-400">LNG / LPG</h4>
+            <p className="text-xs text-slate-500">Natural Gas Products</p>
+          </div>
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between text-slate-400"><span>LNG Spot (JKM)</span><span className="text-white">$12-18/MMBtu</span></div>
+          <div className="flex justify-between text-slate-400"><span>Propane (LPG)</span><span className="text-white">$500-600/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>Butane (LPG)</span><span className="text-white">$520-620/MT</span></div>
+          <div className="flex justify-between text-slate-400"><span>LNG Density</span><span className="text-white">430-470 kg/m³</span></div>
+          <div className="flex justify-between text-slate-400"><span>Storage Temp</span><span className="text-white">-162°C</span></div>
+        </div>
+        <div className="mt-4 pt-4 border-t border-slate-800">
+          <div className="text-xs text-slate-500">Global LNG Trade</div>
+          <div className="text-lg font-bold text-white">401 Million MT/year</div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// ==================== STRATEGIC PORTS SECTION ====================
+const StrategicPortsSection: React.FC = () => {
+  const portsByRegion = {
+    middleEast: [
+      { port: "Jebel Ali", country: "UAE", capacity: "14.5M TEU", type: "Crude, Products, LNG", flag: "🇦🇪" },
+      { port: "Fujairah", country: "UAE", capacity: "8M MT/year", type: "Bunkering Hub", flag: "🇦🇪" },
+      { port: "Ras Tanura", country: "Saudi Arabia", capacity: "6.5M bbl/day", type: "World's Largest Oil Port", flag: "🇸🇦" },
+      { port: "Yanbu", country: "Saudi Arabia", capacity: "2.8M bbl/day", type: "Crude, Petrochemicals", flag: "🇸🇦" },
+      { port: "Mina Al Ahmadi", country: "Kuwait", capacity: "2.4M bbl/day", type: "Crude Export", flag: "🇰🇼" },
+      { port: "Basra Oil Terminal", country: "Iraq", capacity: "3.5M bbl/day", type: "Crude Export", flag: "🇮🇶" },
+      { port: "Kharg Island", country: "Iran", capacity: "5M bbl/day", type: "Crude Export", flag: "🇮🇷" },
+      { port: "Durban", country: "South Africa", capacity: "2.8M TEU", type: "Products, Bunker", flag: "🇿🇦" },
+    ],
+    asiaPacific: [
+      { port: "Singapore", country: "Singapore", capacity: "37.5M TEU", type: "World's #1 Bunkering Hub", flag: "🇸🇬" },
+      { port: "Shanghai", country: "China", capacity: "47M TEU", type: "Crude Import, Products", flag: "🇨🇳" },
+      { port: "Ningbo-Zhoushan", country: "China", capacity: "33M TEU", type: "Crude, LNG Import", flag: "🇨🇳" },
+      { port: "Busan", country: "South Korea", capacity: "22M TEU", type: "Bunkering, Products", flag: "🇰🇷" },
+      { port: "Yokohama", country: "Japan", capacity: "2.9M TEU", type: "LNG, Products Import", flag: "🇯🇵" },
+      { port: "Mumbai (JNPT)", country: "India", capacity: "5.1M TEU", type: "Crude, Products Import", flag: "🇮🇳" },
+      { port: "Jurong Island", country: "Singapore", capacity: "1.5M bbl/day", type: "Refining Hub", flag: "🇸🇬" },
+      { port: "Laem Chabang", country: "Thailand", capacity: "8.5M TEU", type: "Products Distribution", flag: "🇹🇭" },
+    ],
+    europe: [
+      { port: "Rotterdam", country: "Netherlands", capacity: "14.5M TEU", type: "Europe's #1 Oil Hub", flag: "🇳🇱" },
+      { port: "Antwerp", country: "Belgium", capacity: "12M TEU", type: "Petrochemicals Hub", flag: "🇧🇪" },
+      { port: "Amsterdam (ARA)", country: "Netherlands", capacity: "100M MT/year", type: "Storage & Blending", flag: "🇳🇱" },
+      { port: "Hamburg", country: "Germany", capacity: "8.7M TEU", type: "Products Distribution", flag: "🇩🇪" },
+      { port: "Algeciras", country: "Spain", capacity: "5.1M TEU", type: "Mediterranean Bunker", flag: "🇪🇸" },
+      { port: "Trieste (SIOT)", country: "Italy", capacity: "40M MT/year", type: "Adriatic Crude Hub", flag: "🇮🇹" },
+      { port: "Constanta", country: "Romania", capacity: "67M MT/year", type: "Black Sea Hub", flag: "🇷🇴" },
+      { port: "Novorossiysk", country: "Russia", capacity: "140M MT/year", type: "Crude Export", flag: "🇷🇺" },
+    ],
+    americas: [
+      { port: "Houston Ship Channel", country: "USA", capacity: "285M MT/year", type: "World's #2 Petrochemical", flag: "🇺🇸" },
+      { port: "Louisiana Offshore (LOOP)", country: "USA", capacity: "1.2M bbl/day", type: "Deepwater Import", flag: "🇺🇸" },
+      { port: "Corpus Christi", country: "USA", capacity: "2.4M bbl/day", type: "Crude Export Hub", flag: "🇺🇸" },
+      { port: "Long Beach", country: "USA", capacity: "9.6M TEU", type: "West Coast Products", flag: "🇺🇸" },
+      { port: "Cartagena", country: "Colombia", capacity: "3.1M TEU", type: "Caribbean Hub", flag: "🇨🇴" },
+      { port: "Santos", country: "Brazil", capacity: "4.2M TEU", type: "South America's Largest", flag: "🇧🇷" },
+      { port: "Cayo Arcas", country: "Mexico", capacity: "1.8M bbl/day", type: "Crude Export", flag: "🇲🇽" },
+      { port: "Point Tupper", country: "Canada", capacity: "400K bbl/day", type: "Transshipment", flag: "🇨🇦" },
+    ],
+  };
+
+  const PortCard: React.FC<{ port: string; country: string; capacity: string; type: string; flag: string }> = (item) => (
+    <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 hover:border-amber-500/30 transition">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-xl">{item.flag}</span>
+        <div>
+          <div className="font-bold text-white">{item.port}</div>
+          <div className="text-xs text-slate-500">{item.country}</div>
+        </div>
+      </div>
+      <div className="text-sm text-amber-400">{item.capacity}</div>
+      <div className="text-xs text-slate-400 mt-1">{item.type}</div>
+    </div>
+  );
+
+  return (
+    <div className="mb-16">
+      <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+        <OgIcon name="globe" size="md" />
+        Strategic Trading Ports & Terminals
+      </h3>
+      
+      {/* Middle East & Africa */}
+      <div className="mb-8">
+        <h4 className="text-lg font-semibold text-amber-400 mb-4 border-l-4 border-amber-500 pl-4">Middle East & Africa</h4>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {portsByRegion.middleEast.map((item) => <PortCard key={item.port} {...item} />)}
+        </div>
+      </div>
+
+      {/* Asia Pacific */}
+      <div className="mb-8">
+        <h4 className="text-lg font-semibold text-amber-400 mb-4 border-l-4 border-amber-500 pl-4">Asia Pacific</h4>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {portsByRegion.asiaPacific.map((item) => <PortCard key={item.port} {...item} />)}
+        </div>
+      </div>
+
+      {/* Europe */}
+      <div className="mb-8">
+        <h4 className="text-lg font-semibold text-amber-400 mb-4 border-l-4 border-amber-500 pl-4">Europe</h4>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {portsByRegion.europe.map((item) => <PortCard key={item.port} {...item} />)}
+        </div>
+      </div>
+
+      {/* Americas */}
+      <div>
+        <h4 className="text-lg font-semibold text-amber-400 mb-4 border-l-4 border-amber-500 pl-4">Americas</h4>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {portsByRegion.americas.map((item) => <PortCard key={item.port} {...item} />)}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==================== SUPPLY & DEMAND SECTION ====================
+const SupplyDemandSection: React.FC = () => {
+  const producers = [
+    { country: "United States", value: 12.9, pct: 100 },
+    { country: "Saudi Arabia", value: 10.8, pct: 84 },
+    { country: "Russia", value: 10.5, pct: 81 },
+    { country: "Canada", value: 5.6, pct: 43 },
+    { country: "Iraq", value: 4.5, pct: 35 },
+    { country: "China", value: 4.1, pct: 32 },
+    { country: "UAE", value: 4.0, pct: 31 },
+    { country: "Iran", value: 3.8, pct: 29 },
+    { country: "Brazil", value: 3.4, pct: 26 },
+    { country: "Kuwait", value: 2.9, pct: 22 },
+  ];
+  const consumers = [
+    { country: "United States", value: 20.5, pct: 100 },
+    { country: "China", value: 16.2, pct: 79 },
+    { country: "India", value: 5.5, pct: 27 },
+    { country: "Japan", value: 3.8, pct: 19 },
+    { country: "Russia", value: 3.6, pct: 18 },
+    { country: "Saudi Arabia", value: 3.5, pct: 17 },
+    { country: "Brazil", value: 3.1, pct: 15 },
+    { country: "South Korea", value: 2.7, pct: 13 },
+    { country: "Germany", value: 2.4, pct: 12 },
+    { country: "Canada", value: 2.3, pct: 11 },
+  ];
+
+  return (
+    <div className="mb-16">
+      <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+        <OgIcon name="chart" size="md" />
+        Global Supply & Demand Analysis
+      </h3>
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* Top Producers */}
+        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6">
+          <h4 className="text-lg font-bold text-amber-400 mb-6 flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+            Top Oil Producers (Million bbl/day)
+          </h4>
+          <div className="space-y-4">
+            {producers.map((item, idx) => (
+              <div key={item.country} className="flex items-center gap-4">
+                <span className="text-xs text-slate-500 w-6">{idx + 1}.</span>
+                <span className="text-sm text-white w-28">{item.country}</span>
+                <div className="flex-1 bg-slate-800 rounded-full h-2">
+                  <div className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-2 rounded-full" style={{ width: `${item.pct}%` }} />
+                </div>
+                <span className="text-sm font-bold text-emerald-400 w-12 text-right">{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Top Consumers */}
+        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6">
+          <h4 className="text-lg font-bold text-amber-400 mb-6 flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-orange-500"></span>
+            Top Oil Consumers (Million bbl/day)
+          </h4>
+          <div className="space-y-4">
+            {consumers.map((item, idx) => (
+              <div key={item.country} className="flex items-center gap-4">
+                <span className="text-xs text-slate-500 w-6">{idx + 1}.</span>
+                <span className="text-sm text-white w-28">{item.country}</span>
+                <div className="flex-1 bg-slate-800 rounded-full h-2">
+                  <div className="bg-gradient-to-r from-orange-500 to-amber-400 h-2 rounded-full" style={{ width: `${item.pct}%` }} />
+                </div>
+                <span className="text-sm font-bold text-orange-400 w-12 text-right">{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ==================== MAJOR TRADERS SECTION ====================
+const MajorTradersSection: React.FC = () => {
+  const traders = [
+    { name: "Vitol", hq: "Rotterdam", volume: "8M bbl/day", type: "Independent Trader" },
+    { name: "Trafigura", hq: "Singapore", volume: "7.2M bbl/day", type: "Commodities" },
+    { name: "Glencore", hq: "Switzerland", volume: "5.8M bbl/day", type: "Mining & Trading" },
+    { name: "Gunvor", hq: "Geneva", volume: "3.5M bbl/day", type: "Independent" },
+    { name: "Mercuria", hq: "Geneva", volume: "3.2M bbl/day", type: "Energy Trading" },
+    { name: "Shell Trading", hq: "London", volume: "4.1M bbl/day", type: "Integrated Major" },
+    { name: "BP Trading", hq: "London", volume: "3.8M bbl/day", type: "Integrated Major" },
+    { name: "TotalEnergies", hq: "Paris", volume: "3.2M bbl/day", type: "Integrated Major" },
+  ];
+
+  return (
+    <div className="mb-16">
+      <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+        <OgIcon name="money" size="md" />
+        Major Global Oil Traders & Suppliers
+      </h3>
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {traders.map((company) => (
+          <div key={company.name} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/30 transition">
+            <div className="font-bold text-white text-lg mb-1">{company.name}</div>
+            <div className="text-xs text-slate-500 mb-3">{company.hq}</div>
+            <div className="flex justify-between items-center">
+              <span className="text-amber-400 font-semibold">{company.volume}</span>
+              <span className="text-xs text-slate-400 bg-slate-800 px-2 py-1 rounded">{company.type}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ==================== MARKET DYNAMICS SECTION ====================
+const MarketDynamicsSection: React.FC = () => (
+  <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-8">
+    <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+      <OgIcon name="rocket" size="md" />
+      2024-2025 Market Dynamics & Outlook
+    </h3>
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="space-y-4">
+        <h4 className="text-amber-400 font-semibold flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+          Supply Factors
+        </h4>
+        <ul className="space-y-2 text-sm text-slate-300">
+          <li>• OPEC+ production cuts through Q2 2025</li>
+          <li>• US shale production at record 13.3M bbl/day</li>
+          <li>• Guyana & Brazil offshore growth +500K bbl/day</li>
+          <li>• Canadian Trans Mountain expansion online</li>
+          <li>• Venezuelan output recovery potential</li>
+        </ul>
+      </div>
+      <div className="space-y-4">
+        <h4 className="text-amber-400 font-semibold flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+          Demand Factors
+        </h4>
+        <ul className="space-y-2 text-sm text-slate-300">
+          <li>• China petrochemical demand growth +3%</li>
+          <li>• India economic expansion driving +400K bbl/day</li>
+          <li>• Aviation fuel recovery post-pandemic</li>
+          <li>• EV penetration slowing gasoline growth</li>
+          <li>• IMO 2020 driving VLSFO demand</li>
+        </ul>
+      </div>
+      <div className="space-y-4">
+        <h4 className="text-amber-400 font-semibold flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+          Price Outlook
+        </h4>
+        <ul className="space-y-2 text-sm text-slate-300">
+          <li>• Brent range: $70-90/bbl (base case)</li>
+          <li>• Geopolitical premium: +$5-15/bbl</li>
+          <li>• Crack spreads normalizing</li>
+          <li>• Asian premium vs Atlantic widening</li>
+          <li>• Freight rates volatile on Red Sea</li>
+        </ul>
+      </div>
+    </div>
+    <div className="mt-8 pt-6 border-t border-slate-800">
+      <div className="flex flex-wrap gap-4 justify-center">
+        {[
+          { label: "IEA Demand Forecast 2025", value: "103.8M bbl/day" },
+          { label: "OPEC Spare Capacity", value: "5.7M bbl/day" },
+          { label: "Strategic Reserves (OECD)", value: "1.2B barrels" },
+          { label: "Refinery Utilization", value: "83.5%" },
+        ].map((item) => (
+          <div key={item.label} className="bg-slate-800/50 rounded-xl px-4 py-3 text-center">
+            <div className="text-xs text-slate-500">{item.label}</div>
+            <div className="text-lg font-bold text-amber-400">{item.value}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+// ==================== MARKET INTELLIGENCE COMPONENT ====================
+const MarketIntelligenceSection: React.FC<{ setCurrentPage: (page: string) => void }> = () => {
+  return (
+    <section className="py-20 bg-slate-950 section-fade-up">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="text-center mb-16">
+          <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-2">Market Intelligence</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Global Fuel Market Analysis</h2>
+          <p className="text-slate-400 max-w-3xl mx-auto">
+            Comprehensive data on global petroleum markets, trading volumes, and supply chain dynamics powering international commerce.
+          </p>
+        </div>
+
+        {/* Global Market Overview Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+          {[
+            { value: "100.9M", label: "Barrels/Day", desc: "Global oil demand 2024" },
+            { value: "$2.8T", label: "Annual Trade", desc: "Global oil market value" },
+            { value: "657M", label: "Tons/Year", desc: "Refined products traded" },
+            { value: "4,500+", label: "Oil Tankers", desc: "Active global fleet" },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 text-center hover:border-amber-500/30 transition">
+              <div className="text-2xl md:text-3xl font-bold text-amber-400 mb-1">{stat.value}</div>
+              <div className="text-sm text-white font-medium">{stat.label}</div>
+              <div className="text-xs text-slate-500 mt-1">{stat.desc}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* FUEL TYPES DETAILED */}
+        <FuelSpecificationsGrid />
+
+        {/* STRATEGIC PORTS */}
+        <StrategicPortsSection />
+
+        {/* SUPPLY & DEMAND ANALYSIS */}
+        <SupplyDemandSection />
+
+        {/* MAJOR SUPPLIERS */}
+        <MajorTradersSection />
+
+        {/* MARKET DYNAMICS */}
+        <MarketDynamicsSection />
+      </div>
+    </section>
   );
 };
 
