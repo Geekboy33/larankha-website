@@ -124,26 +124,85 @@ const LoadingScreen: React.FC<{ onComplete: () => void }> = ({ onComplete }) => 
 
 // ==================== NEWS/PRESS SECTION ====================
 const NewsSection: React.FC = () => {
+  const [expandedArticle, setExpandedArticle] = useState<number | null>(null);
+  
   const newsItems = [
     {
       date: "Dec 2024",
       title: "Larankha Expands Operations to West Africa",
       excerpt: "Strategic partnership with Ghanaian ports opens new distribution channels for refined petroleum products across the Gulf of Guinea region.",
+      fullContent: `Larankha Oil & Gas Trading is proud to announce the expansion of our operations into West Africa through a strategic partnership with major Ghanaian ports. This milestone represents a significant step in our global growth strategy.
+
+The partnership establishes new distribution channels for refined petroleum products across the Gulf of Guinea region, enabling us to serve markets in Ghana, Côte d'Ivoire, Nigeria, and neighboring countries more efficiently.
+
+Key highlights of this expansion include:
+• New storage facilities with 200,000 barrel capacity at Tema Port
+• Direct supply agreements with local distributors across 5 countries
+• Employment of 50+ local professionals in operations and logistics
+• Reduced delivery times by 40% for regional customers
+
+"This expansion reflects our commitment to bringing world-class energy solutions to emerging markets," said Riad Belatreche Zahaf, Founder & CEO. "West Africa represents tremendous growth potential, and we are excited to contribute to the region's energy security."
+
+Operations are expected to be fully operational by Q1 2025.`,
       category: "Expansion",
     },
     {
       date: "Nov 2024",
       title: "ESG Certification Milestone Achieved",
       excerpt: "Larankha receives ISO 14001 environmental management certification, reinforcing commitment to sustainable trading practices.",
+      fullContent: `Larankha Oil & Gas Trading has achieved ISO 14001:2015 certification for Environmental Management Systems, marking a significant milestone in our sustainability journey.
+
+This internationally recognized certification demonstrates our commitment to minimizing environmental impact across all operations, from trading activities to logistics and distribution.
+
+The certification process involved:
+• Comprehensive environmental impact assessment of all operations
+• Implementation of robust monitoring and measurement systems
+• Training of 100% of staff on environmental best practices
+• Establishment of clear environmental objectives and targets
+
+Key sustainability initiatives implemented include:
+• Carbon footprint tracking and reduction programs
+• Partnership with certified green logistics providers
+• Investment in spill prevention and response capabilities
+• Support for renewable energy transition projects
+
+"Environmental stewardship is not just a corporate responsibility—it's a business imperative," stated our Chief Sustainability Officer. "This certification validates our approach to sustainable trading practices."
+
+We are now working toward ISO 50001 Energy Management certification, expected in 2025.`,
       category: "Sustainability",
     },
     {
       date: "Oct 2024",
       title: "New Aviation Fuel Contract with Major Carrier",
       excerpt: "Multi-year agreement to supply Jet A-1 to international airports across the MENA region, expanding aviation fuel portfolio.",
+      fullContent: `Larankha Oil & Gas Trading has signed a landmark multi-year agreement to supply Jet A-1 aviation fuel to a major international airline, significantly expanding our presence in the aviation fuel sector.
+
+The contract covers supply to international airports across the MENA region, including Dubai, Abu Dhabi, Doha, Riyadh, and Cairo, with potential expansion to additional locations.
+
+Contract highlights:
+• 5-year supply agreement with options for renewal
+• Annual volume of approximately 500,000 metric tons
+• Premium Jet A-1 meeting AFQRJOS specifications
+• Integrated supply chain management and quality assurance
+
+This partnership leverages Larankha's extensive logistics network and quality control capabilities to ensure reliable, on-time delivery of aviation fuel to meet the airline's demanding operational requirements.
+
+"Aviation fuel represents a strategic growth area for Larankha," explained our Head of Aviation Fuels Division. "This contract demonstrates our capability to serve the most demanding customers in the industry."
+
+Additional services included in the agreement:
+• 24/7 supply coordination and emergency response
+• Real-time quality monitoring and documentation
+• Flexible pricing mechanisms tied to market benchmarks
+• Dedicated account management team
+
+We anticipate announcing additional aviation fuel partnerships in the coming months.`,
       category: "Partnerships",
     },
   ];
+
+  const toggleArticle = (idx: number) => {
+    setExpandedArticle(expandedArticle === idx ? null : idx);
+  };
 
   return (
     <section className="py-20 bg-slate-900/50 section-fade-up">
@@ -159,24 +218,53 @@ const NewsSection: React.FC = () => {
           {newsItems.map((item, idx) => (
             <article
               key={idx}
-              className="bg-slate-950/50 border border-slate-800 rounded-2xl p-6 hover:border-amber-500/30 transition group cursor-pointer"
+              className={`bg-slate-950/50 border rounded-2xl p-6 transition-all duration-300 ${
+                expandedArticle === idx 
+                  ? 'border-amber-500/50 md:col-span-3 shadow-xl shadow-amber-500/10' 
+                  : 'border-slate-800 hover:border-amber-500/30'
+              }`}
             >
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs text-amber-400 bg-amber-500/10 px-2 py-1 rounded">{item.category}</span>
                 <span className="text-xs text-slate-500">{item.date}</span>
               </div>
-              <h3 className="text-lg font-bold text-white mb-3 group-hover:text-amber-400 transition">
+              <h3 className={`font-bold text-white mb-3 transition ${
+                expandedArticle === idx ? 'text-xl md:text-2xl text-amber-400' : 'text-lg hover:text-amber-400'
+              }`}>
                 {item.title}
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                {item.excerpt}
-              </p>
-              <div className="flex items-center text-amber-400 text-sm font-medium group-hover:gap-2 transition-all">
-                Read more
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
+              
+              {expandedArticle === idx ? (
+                <div className="animate-fade-in">
+                  <div className="text-sm text-slate-300 leading-relaxed whitespace-pre-line mb-6">
+                    {item.fullContent}
+                  </div>
+                  <button
+                    onClick={() => toggleArticle(idx)}
+                    className="inline-flex items-center gap-2 text-amber-400 text-sm font-medium hover:text-amber-300 transition"
+                  >
+                    <svg className="w-4 h-4 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    Show less
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                    {item.excerpt}
+                  </p>
+                  <button
+                    onClick={() => toggleArticle(idx)}
+                    className="inline-flex items-center text-amber-400 text-sm font-medium hover:gap-2 transition-all group"
+                  >
+                    Read more
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </>
+              )}
             </article>
           ))}
         </div>
