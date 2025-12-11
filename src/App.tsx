@@ -190,13 +190,14 @@ const InteractiveMapSection: React.FC = () => {
   const [activeHub, setActiveHub] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<{id: number; from: string; to: string; progress: number}[]>([]);
   
+  // Hub positions adjusted to match the holographic map image
   const hubs = [
-    { id: "dubai", name: "Dubai HQ", x: 62, y: 42, desc: "Headquarters · Trading · Storage", capacity: "500K bbl", isHQ: true },
-    { id: "rotterdam", name: "Rotterdam", x: 48, y: 28, desc: "Marine · Bunkering · ARA Hub", capacity: "350K bbl", isHQ: false },
-    { id: "singapore", name: "Singapore", x: 78, y: 55, desc: "Asia Hub · Multi-grade", capacity: "400K bbl", isHQ: false },
-    { id: "houston", name: "Houston", x: 22, y: 38, desc: "Americas · Petrochemicals", capacity: "280K bbl", isHQ: false },
-    { id: "mediterranean", name: "Mediterranean", x: 50, y: 38, desc: "Strategic Terminals", capacity: "200K bbl", isHQ: false },
-    { id: "lagos", name: "Lagos", x: 47, y: 55, desc: "West Africa Hub", capacity: "150K bbl", isHQ: false },
+    { id: "dubai", name: "Dubai HQ", x: 58, y: 42, desc: "Headquarters · Trading · Storage", capacity: "500K bbl", isHQ: true },
+    { id: "rotterdam", name: "Rotterdam", x: 46, y: 28, desc: "Marine · Bunkering · ARA Hub", capacity: "350K bbl", isHQ: false },
+    { id: "singapore", name: "Singapore", x: 76, y: 55, desc: "Asia Hub · Multi-grade", capacity: "400K bbl", isHQ: false },
+    { id: "houston", name: "Houston", x: 20, y: 38, desc: "Americas · Petrochemicals", capacity: "280K bbl", isHQ: false },
+    { id: "mediterranean", name: "Mediterranean", x: 49, y: 36, desc: "Strategic Terminals", capacity: "200K bbl", isHQ: false },
+    { id: "lagos", name: "Lagos", x: 46, y: 52, desc: "West Africa Hub", capacity: "150K bbl", isHQ: false },
   ];
 
   // Simulate fuel transactions
@@ -265,29 +266,21 @@ const InteractiveMapSection: React.FC = () => {
               backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(251, 191, 36, 0.1) 2px, rgba(251, 191, 36, 0.1) 4px)',
             }} />
             
-            {/* Holographic grid */}
-            <div className="absolute inset-0 pointer-events-none" style={{
-              backgroundImage: `
-                linear-gradient(rgba(251, 191, 36, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(251, 191, 36, 0.03) 1px, transparent 1px)
-              `,
-              backgroundSize: '50px 50px'
-            }} />
-
-            {/* SVG World Map */}
+            {/* Holographic World Map Image */}
             <div className="relative h-[450px] md:h-[550px]">
-              <svg viewBox="0 0 1000 500" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
+              {/* Base holographic map image */}
+              <img 
+                src="/images/holographic-map.png" 
+                alt="Holographic World Map"
+                className="absolute inset-0 w-full h-full object-contain opacity-90"
+              />
+              
+              {/* SVG overlay for connections and markers */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
                 <defs>
-                  {/* Holographic gradient */}
-                  <linearGradient id="holoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="rgba(251, 191, 36, 0.6)" />
-                    <stop offset="50%" stopColor="rgba(249, 115, 22, 0.4)" />
-                    <stop offset="100%" stopColor="rgba(251, 191, 36, 0.6)" />
-                  </linearGradient>
-                  
                   {/* Glow filter */}
                   <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feGaussianBlur stdDeviation="0.5" result="coloredBlur"/>
                     <feMerge>
                       <feMergeNode in="coloredBlur"/>
                       <feMergeNode in="SourceGraphic"/>
@@ -300,58 +293,53 @@ const InteractiveMapSection: React.FC = () => {
                     <stop offset="50%" stopColor="rgba(251, 191, 36, 0.5)" />
                     <stop offset="100%" stopColor="rgba(251, 191, 36, 0)" />
                   </radialGradient>
+                  
+                  {/* Animated line gradient */}
+                  <linearGradient id="lineFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(251, 191, 36, 0)">
+                      <animate attributeName="offset" values="0;1" dur="2s" repeatCount="indefinite" />
+                    </stop>
+                    <stop offset="50%" stopColor="rgba(251, 191, 36, 0.8)">
+                      <animate attributeName="offset" values="0.5;1.5" dur="2s" repeatCount="indefinite" />
+                    </stop>
+                    <stop offset="100%" stopColor="rgba(251, 191, 36, 0)">
+                      <animate attributeName="offset" values="1;2" dur="2s" repeatCount="indefinite" />
+                    </stop>
+                  </linearGradient>
                 </defs>
-                
-                {/* Simplified World Map Outline - Holographic Style */}
-                <g fill="none" stroke="url(#holoGradient)" strokeWidth="0.8" filter="url(#glow)" opacity="0.7">
-                  {/* North America */}
-                  <path d="M 50 120 Q 80 100 120 110 L 180 100 Q 220 95 250 120 L 270 150 Q 260 180 240 200 L 200 220 Q 160 230 140 210 L 100 200 Q 60 180 50 150 Z" />
-                  {/* South America */}
-                  <path d="M 200 250 Q 220 260 230 290 L 250 350 Q 240 400 220 420 L 190 410 Q 170 380 180 340 L 175 290 Q 180 260 200 250 Z" />
-                  {/* Europe */}
-                  <path d="M 440 100 Q 480 90 520 100 L 540 120 Q 530 140 500 150 L 460 145 Q 440 130 440 100 Z" />
-                  {/* Africa */}
-                  <path d="M 440 180 Q 480 170 520 190 L 540 250 Q 530 320 500 360 L 460 350 Q 430 300 440 240 Z" />
-                  {/* Asia */}
-                  <path d="M 560 80 Q 650 70 750 100 L 820 140 Q 850 180 840 220 L 780 250 Q 700 240 640 200 L 580 160 Q 550 120 560 80 Z" />
-                  {/* Middle East */}
-                  <path d="M 540 170 Q 580 160 620 180 L 640 210 Q 620 240 580 230 L 550 210 Q 530 190 540 170 Z" />
-                  {/* Australia */}
-                  <path d="M 760 320 Q 820 310 860 340 L 870 380 Q 850 410 800 400 L 760 380 Q 740 350 760 320 Z" />
-                  {/* Additional landmass details */}
-                  <path d="M 700 280 L 740 290 Q 750 310 730 320 L 700 310 Z" />
-                </g>
-                
-                {/* Latitude/Longitude lines */}
-                <g stroke="rgba(251, 191, 36, 0.1)" strokeWidth="0.5" fill="none">
-                  {[100, 200, 300, 400].map(y => (
-                    <line key={`lat-${y}`} x1="0" y1={y} x2="1000" y2={y} strokeDasharray="10,10" />
-                  ))}
-                  {[200, 400, 600, 800].map(x => (
-                    <line key={`lng-${x}`} x1={x} y1="0" x2={x} y2="500" strokeDasharray="10,10" />
-                  ))}
-                </g>
                 
                 {/* Connection lines between hubs */}
                 {hubs.filter(h => h.id !== 'dubai').map((hub) => (
-                  <line
-                    key={`line-${hub.id}`}
-                    x1={620}
-                    y1={210}
-                    x2={hub.x * 10}
-                    y2={hub.y * 5}
-                    stroke="rgba(251, 191, 36, 0.2)"
-                    strokeWidth="1"
-                    strokeDasharray="8,4"
-                  />
+                  <g key={`line-${hub.id}`}>
+                    {/* Base line */}
+                    <line
+                      x1={58}
+                      y1={42}
+                      x2={hub.x}
+                      y2={hub.y}
+                      stroke="rgba(251, 191, 36, 0.3)"
+                      strokeWidth="0.3"
+                      strokeDasharray="1,1"
+                    />
+                    {/* Animated flow line */}
+                    <line
+                      x1={58}
+                      y1={42}
+                      x2={hub.x}
+                      y2={hub.y}
+                      stroke="url(#lineFlow)"
+                      strokeWidth="0.4"
+                      className="animate-pulse"
+                    />
+                  </g>
                 ))}
                 
                 {/* Animated transaction particles */}
                 {transactions.map((tx) => {
                   const from = getHubCoords(tx.from);
                   const to = getHubCoords(tx.to);
-                  const x = from.x * 10 + (to.x * 10 - from.x * 10) * (tx.progress / 100);
-                  const y = from.y * 5 + (to.y * 5 - from.y * 5) * (tx.progress / 100);
+                  const x = from.x + (to.x - from.x) * (tx.progress / 100);
+                  const y = from.y + (to.y - from.y) * (tx.progress / 100);
                   
                   return (
                     <g key={tx.id}>
@@ -359,15 +347,15 @@ const InteractiveMapSection: React.FC = () => {
                       <circle
                         cx={x}
                         cy={y}
-                        r="12"
+                        r="2"
                         fill="url(#particleGlow)"
-                        opacity={0.3}
+                        opacity={0.5}
                       />
                       {/* Main particle */}
                       <circle
                         cx={x}
                         cy={y}
-                        r="4"
+                        r="0.8"
                         fill="#fbbf24"
                         filter="url(#glow)"
                       />
@@ -375,7 +363,7 @@ const InteractiveMapSection: React.FC = () => {
                       <circle
                         cx={x}
                         cy={y}
-                        r="2"
+                        r="0.4"
                         fill="#fef3c7"
                       />
                     </g>
@@ -384,34 +372,41 @@ const InteractiveMapSection: React.FC = () => {
                 
                 {/* Hub markers */}
                 {hubs.map((hub) => (
-                  <g key={hub.id} transform={`translate(${hub.x * 10}, ${hub.y * 5})`}>
+                  <g key={hub.id}>
                     {/* Outer pulse ring */}
                     <circle
-                      r={hub.isHQ ? "20" : "14"}
+                      cx={hub.x}
+                      cy={hub.y}
+                      r={hub.isHQ ? 3 : 2}
                       fill="none"
                       stroke={hub.isHQ ? "#fbbf24" : "#f59e0b"}
-                      strokeWidth="1"
-                      opacity="0.3"
+                      strokeWidth="0.2"
+                      opacity="0.4"
                       className="animate-ping"
-                      style={{ transformOrigin: 'center', animationDuration: '2s' }}
                     />
                     {/* Middle ring */}
                     <circle
-                      r={hub.isHQ ? "12" : "8"}
+                      cx={hub.x}
+                      cy={hub.y}
+                      r={hub.isHQ ? 2 : 1.3}
                       fill="none"
                       stroke={hub.isHQ ? "#fbbf24" : "#f59e0b"}
-                      strokeWidth="1.5"
-                      opacity="0.5"
+                      strokeWidth="0.3"
+                      opacity="0.6"
                     />
                     {/* Inner circle */}
                     <circle
-                      r={hub.isHQ ? "6" : "4"}
+                      cx={hub.x}
+                      cy={hub.y}
+                      r={hub.isHQ ? 1.2 : 0.8}
                       fill={hub.isHQ ? "#fbbf24" : "#f59e0b"}
                       filter="url(#glow)"
                     />
                     {/* Center dot */}
                     <circle
-                      r="2"
+                      cx={hub.x}
+                      cy={hub.y}
+                      r="0.4"
                       fill="#fef3c7"
                     />
                   </g>
