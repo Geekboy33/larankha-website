@@ -55,7 +55,7 @@ const useCountUp = (end: number, duration: number = 2000, startOnView: boolean =
 // ==================== WHATSAPP FLOATING BUTTON ====================
 const WhatsAppButton: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const phoneNumber = "971502661066"; // Replace with actual WhatsApp number
+  const phoneNumber = "34627296872"; // Spain WhatsApp number
   const message = "Hello, I'm interested in Larankha Oil & Gas Trading services.";
   
   return (
