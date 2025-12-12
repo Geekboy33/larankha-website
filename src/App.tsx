@@ -1279,10 +1279,10 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
           <div className="hidden lg:block">
             <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-6 shadow-2xl">
               <div className="grid grid-cols-2 gap-4">
-                <StatCard icon={<OgIcon name="barrel" />} label="Products" value="15+" hint="Oil & Gas Types" />
-                <StatCard icon={<OgIcon name="globe" />} label="Coverage" value="Global" hint="Multi-region" />
-                <StatCard icon={<OgIcon name="energy" />} label="Supply" value="24/7" hint="Non-stop delivery" />
-                <StatCard icon={<OgIcon name="shield" />} label="Standards" value="ESG" hint="Certified" />
+                <StatCard icon={<OgIcon name="barrel" />} label={t.hero.stats.products} value={t.hero.stats.productsValue} hint={t.hero.stats.productsHint} />
+                <StatCard icon={<OgIcon name="globe" />} label={t.hero.stats.coverage} value={t.hero.stats.coverageValue} hint={t.hero.stats.coverageHint} />
+                <StatCard icon={<OgIcon name="energy" />} label={t.hero.stats.supply} value={t.hero.stats.supplyValue} hint={t.hero.stats.supplyHint} />
+                <StatCard icon={<OgIcon name="shield" />} label={t.hero.stats.standards} value={t.hero.stats.standardsValue} hint={t.hero.stats.standardsHint} />
                   </div>
                   </div>
                 </div>

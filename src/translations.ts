@@ -30,6 +30,20 @@ type SectionCopy = {
     quote: string;
     ctaPrimary: string;
     ctaSecondary: string;
+    stats: {
+      products: string;
+      productsValue: string;
+      productsHint: string;
+      coverage: string;
+      coverageValue: string;
+      coverageHint: string;
+      supply: string;
+      supplyValue: string;
+      supplyHint: string;
+      standards: string;
+      standardsValue: string;
+      standardsHint: string;
+    };
   };
   philosophy: {
     title: string;
@@ -102,6 +116,20 @@ export const copy: Record<Lang, SectionCopy> = {
       quote: '"Selling energy, fuelling the future." – Riad Belatreche Zahaf, Founder & CEO',
       ctaPrimary: "Talk to our team",
       ctaSecondary: "Download company profile",
+      stats: {
+        products: "Products",
+        productsValue: "15+",
+        productsHint: "Oil & Gas Types",
+        coverage: "Coverage",
+        coverageValue: "Global",
+        coverageHint: "Multi-region",
+        supply: "Supply",
+        supplyValue: "24/7",
+        supplyHint: "Non-stop delivery",
+        standards: "Standards",
+        standardsValue: "ESG",
+        standardsHint: "Certified",
+      },
     },
     philosophy: {
       title: "Our Philosophy",
@@ -226,6 +254,20 @@ export const copy: Record<Lang, SectionCopy> = {
       quote: '"Vendiendo energía, impulsando el futuro". – Riad Belatreche Zahaf, Fundador & CEO',
       ctaPrimary: "Hablar con nuestro equipo",
       ctaSecondary: "Descargar perfil corporativo",
+      stats: {
+        products: "Productos",
+        productsValue: "15+",
+        productsHint: "Tipos de Petróleo y Gas",
+        coverage: "Cobertura",
+        coverageValue: "Global",
+        coverageHint: "Multi-región",
+        supply: "Suministro",
+        supplyValue: "24/7",
+        supplyHint: "Entrega continua",
+        standards: "Estándares",
+        standardsValue: "ESG",
+        standardsHint: "Certificado",
+      },
     },
     philosophy: {
       title: "Nuestra Filosofía",
@@ -350,6 +392,20 @@ export const copy: Record<Lang, SectionCopy> = {
       quote: "«نبيع الطاقة لنغذي المستقبل» – رياض بلطرش، المؤسس والرئيس التنفيذي",
       ctaPrimary: "تواصل مع فريقنا",
       ctaSecondary: "تحميل الملف التعريفي للشركة",
+      stats: {
+        products: "المنتجات",
+        productsValue: "+15",
+        productsHint: "أنواع النفط والغاز",
+        coverage: "التغطية",
+        coverageValue: "عالمية",
+        coverageHint: "متعددة المناطق",
+        supply: "التوريد",
+        supplyValue: "24/7",
+        supplyHint: "توصيل مستمر",
+        standards: "المعايير",
+        standardsValue: "ESG",
+        standardsHint: "معتمد",
+      },
     },
     philosophy: {
       title: "فلسفتنا",
@@ -474,6 +530,20 @@ export const copy: Record<Lang, SectionCopy> = {
       quote: '"销售能源，点燃未来。"– 创始人兼首席执行官 Riad Belatreche Zahaf',
       ctaPrimary: "联系商务团队",
       ctaSecondary: "下载公司简介",
+      stats: {
+        products: "产品",
+        productsValue: "15+",
+        productsHint: "油气类型",
+        coverage: "覆盖",
+        coverageValue: "全球",
+        coverageHint: "多区域",
+        supply: "供应",
+        supplyValue: "24/7",
+        supplyHint: "不间断配送",
+        standards: "标准",
+        standardsValue: "ESG",
+        standardsHint: "已认证",
+      },
     },
     philosophy: {
       title: "我们的理念",
@@ -594,6 +664,20 @@ export const copy: Record<Lang, SectionCopy> = {
         '"Мы продаём энергию и питаем будущее" – Риад Белатреш, основатель и генеральный директор',
       ctaPrimary: "Связаться с командой",
       ctaSecondary: "Скачать профиль компании",
+      stats: {
+        products: "Продукты",
+        productsValue: "15+",
+        productsHint: "Виды нефти и газа",
+        coverage: "Охват",
+        coverageValue: "Глобальный",
+        coverageHint: "Несколько регионов",
+        supply: "Поставки",
+        supplyValue: "24/7",
+        supplyHint: "Непрерывная доставка",
+        standards: "Стандарты",
+        standardsValue: "ESG",
+        standardsHint: "Сертифицировано",
+      },
     },
     philosophy: {
       title: "Наша философия",
@@ -719,6 +803,20 @@ export const copy: Record<Lang, SectionCopy> = {
         '"Vendre l\'énergie, alimenter l\'avenir." – Riad Belatreche Zahaf, Fondateur & CEO',
       ctaPrimary: "Parler à notre équipe",
       ctaSecondary: "Télécharger le profil de l'entreprise",
+      stats: {
+        products: "Produits",
+        productsValue: "15+",
+        productsHint: "Types de pétrole et gaz",
+        coverage: "Couverture",
+        coverageValue: "Mondiale",
+        coverageHint: "Multi-régions",
+        supply: "Approvisionnement",
+        supplyValue: "24/7",
+        supplyHint: "Livraison continue",
+        standards: "Normes",
+        standardsValue: "ESG",
+        standardsHint: "Certifié",
+      },
     },
     philosophy: {
       title: "Notre philosophie",
@@ -844,6 +942,20 @@ export const copy: Record<Lang, SectionCopy> = {
         '"Vendendo energia, abastecendo o futuro." – Riad Belatreche Zahaf, Fundador & CEO',
       ctaPrimary: "Falar com a equipe",
       ctaSecondary: "Baixar perfil corporativo",
+      stats: {
+        products: "Produtos",
+        productsValue: "15+",
+        productsHint: "Tipos de óleo e gás",
+        coverage: "Cobertura",
+        coverageValue: "Global",
+        coverageHint: "Multi-região",
+        supply: "Fornecimento",
+        supplyValue: "24/7",
+        supplyHint: "Entrega contínua",
+        standards: "Padrões",
+        standardsValue: "ESG",
+        standardsHint: "Certificado",
+      },
     },
     philosophy: {
       title: "Nossa Filosofia",
