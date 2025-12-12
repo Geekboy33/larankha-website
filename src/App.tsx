@@ -1701,49 +1701,42 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
             {/* CEO Card */}
             <div className="group relative bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
               {/* Decorative gradient */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 z-10" />
               
-              {/* Photo Container */}
-              <div className="relative h-80 overflow-hidden">
+              {/* Photo Container - Full Photo */}
+              <div className="relative aspect-[3/4] overflow-hidden bg-slate-900">
                 <img
                   src={images.ceoPhoto}
                   alt="Riad Belatreche Zahaf - Founder & CEO"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
                 
                 {/* Badge */}
-                <div className="absolute top-4 right-4 bg-amber-500/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                <div className="absolute top-4 right-4 bg-amber-500/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
                   <span className="text-xs font-bold text-slate-950 uppercase tracking-wider">Founder & CEO</span>
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="relative p-8 -mt-16">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
-                    <OgIcon name="target" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white">Riad Belatreche Zahaf</h3>
-                    <p className="text-amber-400 font-medium">Founder & Chief Executive Officer</p>
-                  </div>
+              {/* Content - Below Photo */}
+              <div className="p-6 lg:p-8">
+                <div className="text-center mb-4">
+                  <h3 className="text-2xl font-bold text-white mb-1">Riad Belatreche Zahaf</h3>
+                  <p className="text-amber-400 font-medium">Founder & Chief Executive Officer</p>
                 </div>
                 
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                <p className="text-slate-400 text-sm leading-relaxed mb-5 text-center">
                   Visionary entrepreneur with extensive experience in international oil & gas trading. 
-                  Founded Larankha with the mission to revolutionize energy distribution across emerging markets. 
-                  Leads global strategy, key partnerships, and sustainable growth initiatives.
+                  Founded Larankha with the mission to revolutionize energy distribution across emerging markets.
                 </p>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap justify-center gap-2 mb-5">
                   <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Strategic Vision</span>
                   <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Global Expansion</span>
                   <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Energy Trading</span>
                 </div>
 
                 {/* Quote */}
-                <div className="mt-6 pt-6 border-t border-slate-800">
+                <div className="pt-5 border-t border-slate-800 text-center">
                   <p className="text-sm italic text-slate-500">
                     "Selling energy, fuelling the future."
                   </p>
@@ -1754,49 +1747,42 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
             {/* Chairman Card */}
             <div className="group relative bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
               {/* Decorative gradient */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400" />
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 z-10" />
               
-              {/* Photo Container */}
-              <div className="relative h-80 overflow-hidden">
+              {/* Photo Container - Full Photo */}
+              <div className="relative aspect-[3/4] overflow-hidden bg-slate-900">
                 <img
                   src={images.chairmanPhoto}
                   alt="Alejandro Salazar Hurtado - Chairman"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
                 
                 {/* Badge */}
-                <div className="absolute top-4 right-4 bg-amber-500/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                <div className="absolute top-4 right-4 bg-amber-500/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
                   <span className="text-xs font-bold text-slate-950 uppercase tracking-wider">Chairman</span>
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="relative p-8 -mt-16">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
-                    <OgIcon name="shield" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white">Alejandro Salazar Hurtado</h3>
-                    <p className="text-amber-400 font-medium">Chairman of the Board</p>
-                  </div>
+              {/* Content - Below Photo */}
+              <div className="p-6 lg:p-8">
+                <div className="text-center mb-4">
+                  <h3 className="text-2xl font-bold text-white mb-1">Alejandro Salazar Hurtado</h3>
+                  <p className="text-amber-400 font-medium">Chairman of the Board</p>
                 </div>
                 
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                <p className="text-slate-400 text-sm leading-relaxed mb-5 text-center">
                   Distinguished business leader with a proven track record in corporate governance and 
-                  international commerce. Provides strategic oversight and guides the company's long-term 
-                  vision, ensuring excellence in operations and stakeholder value creation.
+                  international commerce. Guides the company's long-term vision and stakeholder value.
                 </p>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap justify-center gap-2 mb-5">
                   <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Corporate Governance</span>
                   <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Strategic Oversight</span>
                   <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Business Development</span>
                 </div>
 
                 {/* Quote */}
-                <div className="mt-6 pt-6 border-t border-slate-800">
+                <div className="pt-5 border-t border-slate-800 text-center">
                   <p className="text-sm italic text-slate-500">
                     "Excellence in governance, strength in partnerships."
                   </p>
