@@ -726,6 +726,8 @@ const images = {
   camion: "/images/camion.png",
   gasolina: "/images/gasolina.png",
   jet: "/images/jet.png",
+  ceoPhoto: "/images/CEO.jpg",
+  chairmanPhoto: "/images/chairman.png",
 };
 
 // Iconos personalizados Oil & Gas
@@ -1681,46 +1683,140 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
         </div>
       </section>
 
-      {/* EQUIPO PREVIEW */}
-      <section className="py-16 md:py-20 bg-slate-900/50 section-fade-up">
+      {/* LEADERSHIP TEAM */}
+      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-900/50 to-slate-950 section-fade-up">
         <div className="mx-auto max-w-7xl px-4">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <img
-                src={images.teamWorkers}
-                alt="Team"
-                className="rounded-3xl shadow-2xl"
-              />
+          {/* Header */}
+          <div className="text-center mb-16">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-300 mb-3">Leadership</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Our Executive Team</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Larankha is led by visionary leaders with decades of combined experience in global energy trading, 
+              strategic development, and international business operations.
+            </p>
+          </div>
+
+          {/* Leadership Cards */}
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+            {/* CEO Card */}
+            <div className="group relative bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
+              {/* Decorative gradient */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400" />
+              
+              {/* Photo Container */}
+              <div className="relative h-80 overflow-hidden">
+                <img
+                  src={images.ceoPhoto}
+                  alt="Riad Belatreche Zahaf - Founder & CEO"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
+                
+                {/* Badge */}
+                <div className="absolute top-4 right-4 bg-amber-500/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                  <span className="text-xs font-bold text-slate-950 uppercase tracking-wider">Founder & CEO</span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="relative p-8 -mt-16">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+                    <OgIcon name="target" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">Riad Belatreche Zahaf</h3>
+                    <p className="text-amber-400 font-medium">Founder & Chief Executive Officer</p>
+                  </div>
+                </div>
+                
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  Visionary entrepreneur with extensive experience in international oil & gas trading. 
+                  Founded Larankha with the mission to revolutionize energy distribution across emerging markets. 
+                  Leads global strategy, key partnerships, and sustainable growth initiatives.
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Strategic Vision</span>
+                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Global Expansion</span>
+                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Energy Trading</span>
+                </div>
+
+                {/* Quote */}
+                <div className="mt-6 pt-6 border-t border-slate-800">
+                  <p className="text-sm italic text-slate-500">
+                    "Selling energy, fuelling the future."
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="order-1 lg:order-2">
-              <h2 className="text-3xl font-bold text-white mb-6">{t.nav.team}</h2>
-              <p className="text-slate-400 mb-6">
-                Larankha is led by an experienced leadership team combining trading,
-                logistics, finance and risk management expertise.
-              </p>
-              <ul className="space-y-3">
-                {[
-                  "Founder & CEO – Strategic vision & global growth",
-                  "Vice Director – Operations & efficiency",
-                  "Managing Director – Business development",
-                  "CFO – Financial strategy & stability",
-                ].map((role) => (
-                  <li key={role} className="flex items-center gap-3 text-sm text-slate-300">
-                    <span className="h-2 w-2 rounded-full bg-amber-400" />
-                    {role}
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={() => setCurrentPage("careers")}
-                className="mt-8 inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-medium"
-              >
-                Join our team
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </button>
+
+            {/* Chairman Card */}
+            <div className="group relative bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
+              {/* Decorative gradient */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400" />
+              
+              {/* Photo Container */}
+              <div className="relative h-80 overflow-hidden">
+                <img
+                  src={images.chairmanPhoto}
+                  alt="Alejandro Salazar Hurtado - Chairman"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
+                
+                {/* Badge */}
+                <div className="absolute top-4 right-4 bg-amber-500/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                  <span className="text-xs font-bold text-slate-950 uppercase tracking-wider">Chairman</span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="relative p-8 -mt-16">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+                    <OgIcon name="shield" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">Alejandro Salazar Hurtado</h3>
+                    <p className="text-amber-400 font-medium">Chairman of the Board</p>
+                  </div>
+                </div>
+                
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  Distinguished business leader with a proven track record in corporate governance and 
+                  international commerce. Provides strategic oversight and guides the company's long-term 
+                  vision, ensuring excellence in operations and stakeholder value creation.
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Corporate Governance</span>
+                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Strategic Oversight</span>
+                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Business Development</span>
+                </div>
+
+                {/* Quote */}
+                <div className="mt-6 pt-6 border-t border-slate-800">
+                  <p className="text-sm italic text-slate-500">
+                    "Excellence in governance, strength in partnerships."
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Join Team CTA */}
+          <div className="text-center mt-16">
+            <p className="text-slate-400 mb-6">Join our growing team of industry professionals</p>
+            <button
+              onClick={() => setCurrentPage("careers")}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 px-8 py-3 rounded-full text-sm font-bold text-slate-950 shadow-xl hover:scale-105 transition"
+            >
+              Explore Careers
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
           </div>
         </div>
       </section>
