@@ -979,8 +979,25 @@ const Logo: React.FC<{ size?: "sm" | "md" | "lg" }> = ({ size = "md" }) => {
   );
 };
 
+// Función para detectar el idioma del navegador y mapearlo a nuestros idiomas soportados
+const getDeviceLanguage = (): Lang => {
+  // Obtener el idioma del navegador
+  const browserLang = navigator.language || (navigator as any).userLanguage || "en";
+  const langCode = browserLang.split("-")[0].toLowerCase(); // "es-ES" -> "es"
+  
+  // Mapear a nuestros idiomas soportados
+  const supportedLangs: Lang[] = ["en", "es", "ar", "zh", "ru", "fr", "pt"];
+  
+  if (supportedLangs.includes(langCode as Lang)) {
+    return langCode as Lang;
+  }
+  
+  // Fallback a inglés si el idioma no está soportado
+  return "en";
+};
+
 const App: React.FC = () => {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>(() => getDeviceLanguage());
   const [currentPage, setCurrentPage] = useState<string>("home");
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [cursorPos, setCursorPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
