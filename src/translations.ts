@@ -113,7 +113,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha Oil & Gas Trading – From Dubai to the World",
       subtitle:
         "Delivering excellence in oil and gas. We power industries with innovative, sustainable and efficient energy solutions from the heart of Dubai.",
-      quote: '"Selling energy, fuelling the future." – Riad Belatreche Zahaf, Founder & CEO',
+      quote: '"Selling energy, fuelling the future."',
       ctaPrimary: "Talk to our team",
       ctaSecondary: "Download company profile",
       stats: {
@@ -251,7 +251,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha Oil & Gas Trading – Desde Dubái para el mundo",
       subtitle:
         "Llevamos excelencia en petróleo y gas. Impulsamos industrias con soluciones energéticas innovadoras, sostenibles y eficientes desde el corazón de Dubái.",
-      quote: '"Vendiendo energía, impulsando el futuro". – Riad Belatreche Zahaf, Fundador & CEO',
+      quote: '"Vendiendo energía, impulsando el futuro."',
       ctaPrimary: "Hablar con nuestro equipo",
       ctaSecondary: "Descargar perfil corporativo",
       stats: {
@@ -389,7 +389,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "لارنخا لتجارة النفط والغاز – من دبي إلى العالم",
       subtitle:
         "نقدّم حلولاً للطاقة تتميز بالابتكار والاستدامة والكفاءة من قلب دبي لخدمة الصناعات حول العالم.",
-      quote: "«نبيع الطاقة لنغذي المستقبل» – رياض بلطرش، المؤسس والرئيس التنفيذي",
+      quote: "«نبيع الطاقة لنغذي المستقبل»",
       ctaPrimary: "تواصل مع فريقنا",
       ctaSecondary: "تحميل الملف التعريفي للشركة",
       stats: {
@@ -527,7 +527,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha 石油与天然气贸易 – 立足迪拜，服务全球",
       subtitle:
         "从迪拜核心地带，为全球工业提供创新、可持续且高效的能源解决方案。",
-      quote: '"销售能源，点燃未来。"– 创始人兼首席执行官 Riad Belatreche Zahaf',
+      quote: '"销售能源，点燃未来。"',
       ctaPrimary: "联系商务团队",
       ctaSecondary: "下载公司简介",
       stats: {
@@ -660,8 +660,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha Oil & Gas Trading – Дубай, глобальный охват",
       subtitle:
         "Мы обеспечиваем индустрию инновационными, устойчивыми и эффективными энергетическими решениями из сердца Дубая.",
-      quote:
-        '"Мы продаём энергию и питаем будущее" – Риад Белатреш, основатель и генеральный директор',
+      quote: '"Мы продаём энергию и питаем будущее"',
       ctaPrimary: "Связаться с командой",
       ctaSecondary: "Скачать профиль компании",
       stats: {
@@ -799,8 +798,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha Oil & Gas Trading – De Dubaï vers le monde",
       subtitle:
         "Nous fournissons aux industries des solutions énergétiques innovantes, durables et efficaces depuis le cœur de Dubaï.",
-      quote:
-        '"Vendre l\'énergie, alimenter l\'avenir." – Riad Belatreche Zahaf, Fondateur & CEO',
+      quote: '"Vendre l\'énergie, alimenter l\'avenir."',
       ctaPrimary: "Parler à notre équipe",
       ctaSecondary: "Télécharger le profil de l'entreprise",
       stats: {
@@ -938,8 +936,7 @@ export const copy: Record<Lang, SectionCopy> = {
       title: "Larankha Oil & Gas Trading – De Dubai para o mundo",
       subtitle:
         "Fornecemos soluções de energia inovadoras, sustentáveis e eficientes para indústrias globais a partir do coração de Dubai.",
-      quote:
-        '"Vendendo energia, abastecendo o futuro." – Riad Belatreche Zahaf, Fundador & CEO',
+      quote: '"Vendendo energia, abastecendo o futuro."',
       ctaPrimary: "Falar com a equipe",
       ctaSecondary: "Baixar perfil corporativo",
       stats: {

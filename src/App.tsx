@@ -141,7 +141,7 @@ Key highlights of this expansion include:
 • Employment of 50+ local professionals in operations and logistics
 • Reduced delivery times by 40% for regional customers
 
-"This expansion reflects our commitment to bringing world-class energy solutions to emerging markets," said Riad Belatreche Zahaf, Founder & CEO. "West Africa represents tremendous growth potential, and we are excited to contribute to the region's energy security."
+"This expansion reflects our commitment to bringing world-class energy solutions to emerging markets. West Africa represents tremendous growth potential, and we are excited to contribute to the region's energy security."
 
 Operations are expected to be fully operational by Q1 2025.`,
       category: "Expansion",
@@ -1714,53 +1714,7 @@ const HomePage: React.FC<{ t: any; setCurrentPage: (p: string) => void }> = ({
           </div>
 
           {/* Leadership Cards */}
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
-            {/* CEO Card */}
-            <div className="group relative bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
-              {/* Decorative gradient */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 z-10" />
-              
-              {/* Photo Container - Full Photo */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-slate-900">
-                <img
-                  src={images.ceoPhoto}
-                  alt="Riad Belatreche Zahaf - Founder & CEO"
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                />
-                
-                {/* Badge */}
-                <div className="absolute top-4 right-4 bg-amber-500/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
-                  <span className="text-xs font-bold text-slate-950 uppercase tracking-wider">Founder & CEO</span>
-                </div>
-              </div>
-
-              {/* Content - Below Photo */}
-              <div className="p-6 lg:p-8">
-                <div className="text-center mb-4">
-                  <h3 className="text-2xl font-bold text-white mb-1">Riad Belatreche Zahaf</h3>
-                  <p className="text-amber-400 font-medium">Founder & Chief Executive Officer</p>
-                </div>
-                
-                <p className="text-slate-400 text-sm leading-relaxed mb-5 text-center">
-                  Visionary entrepreneur with extensive experience in international oil & gas trading. 
-                  Founded Larankha with the mission to revolutionize energy distribution across emerging markets.
-                </p>
-
-                <div className="flex flex-wrap justify-center gap-2 mb-5">
-                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Strategic Vision</span>
-                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Global Expansion</span>
-                  <span className="text-xs bg-slate-800/80 text-amber-300 px-3 py-1 rounded-full">Energy Trading</span>
-                </div>
-
-                {/* Quote */}
-                <div className="pt-5 border-t border-slate-800 text-center">
-                  <p className="text-sm italic text-slate-500">
-                    "Selling energy, fuelling the future."
-                  </p>
-                </div>
-              </div>
-            </div>
-
+          <div className="flex justify-center max-w-5xl mx-auto">
             {/* Chairman Card */}
             <div className="group relative bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
               {/* Decorative gradient */}
@@ -2880,7 +2834,6 @@ const CareersPage: React.FC<{ t: any; lang: string }> = ({ t }) => {
               <h2 className="text-3xl font-bold text-white mb-6">Our Leadership</h2>
               <ul className="space-y-4">
                 {[
-                  { role: "Founder & CEO", desc: "Strategic vision & global growth" },
                   { role: "Vice Director", desc: "Operations & efficiency" },
                   { role: "Managing Director", desc: "Business development & partnerships" },
                   { role: "CFO", desc: "Financial strategy & long-term stability" },
